@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Gateway } from 'src/Gateways/app.gateway';
 
 abstract class AppServiceAbstract {
   abstract getHello(): string;
@@ -6,10 +7,9 @@ abstract class AppServiceAbstract {
 
 @Injectable()
 export class AppService implements AppServiceAbstract {
+  constructor(private readonly gatewayService: Gateway) {}
+
   getHello(): string {
-    throw new Error('Method not implemented.');
+    return this.gatewayService.getData();
   }
-  // getHello(): string {
-  //   return 'Hello World!';
-  // }
 }

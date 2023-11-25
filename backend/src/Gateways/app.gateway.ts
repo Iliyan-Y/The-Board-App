@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-@Injectable
+@Injectable()
 export abstract class Gateway {
   abstract getData(): string;
 }
