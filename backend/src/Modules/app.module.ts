@@ -5,7 +5,6 @@ import { Gateway } from '../Gateways/app.gateway';
 import { Repository } from '../Gateways.DB/app.repository';
 
 @Module({
-  imports: [],
   controllers: [AppController],
   providers: [AppService, { provide: Gateway, useClass: Repository }],
 })
