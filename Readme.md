@@ -25,3 +25,19 @@
 ## Deployment
 
 - The MVP app is designed for local use, but should be easily deployed to the cloud (AWS ?) if required
+
+# Requirements
+
+- nodejs
+- postgresql
+
+# Setup
+
+- create database in postgres
+- create .env file in the backed dir
+
+```
+DB_NAME=your_db_name
+DB_USERNAME=your_db_user_name
+DB_PASSWORD=IF_password_required
+```
