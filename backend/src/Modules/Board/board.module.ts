@@ -5,6 +5,7 @@ import { BoardService } from 'src/Domain/Board/service';
 import { BoardRepository } from 'src/Gateways.DB/Board/repository';
 import { Board } from 'src/Gateways/Board/entity';
 import { BoardGateway } from 'src/Gateways/Board/gateway';
+import { BoardProfile } from './mapper.profile';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Board])],
@@ -12,6 +13,7 @@ import { BoardGateway } from 'src/Gateways/Board/gateway';
   providers: [
     BoardService,
     { provide: BoardGateway, useClass: BoardRepository },
+    BoardProfile,
   ],
 })
 export class BoardModule {}

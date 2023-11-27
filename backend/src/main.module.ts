@@ -3,7 +3,7 @@ import { AutomapperModule } from '@automapper/nestjs';
 import { classes } from '@automapper/classes';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { BoardModule } from './Modules/board.module';
+import { BoardModule } from './Modules/Board/board.module';
 
 const appModules = [BoardModule];
 

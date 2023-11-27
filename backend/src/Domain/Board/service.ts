@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { BoardModel } from './model';
 import { BoardGateway } from 'src/Gateways/Board/gateway';
+import { InjectMapper } from '@automapper/nestjs';
+import { Mapper } from '@automapper/core';
+import { Board } from 'src/Gateways/Board/entity';
 
 export class CreateCommand {
   name: string;
@@ -31,12 +34,14 @@ abstract class BoardServiceAbstract {
 
 @Injectable()
 export class BoardService implements BoardServiceAbstract {
-  constructor(private readonly gateway: BoardGateway) {}
+  constructor(
+    private readonly gateway: BoardGateway,
+    @InjectMapper() private readonly mapper: Mapper,
+  ) {}
 
   async create(command: CreateCommand): Promise<CreateResult> {
-    const res = await this.gateway.create(command.name);
-    console.log(res);
-    // TODO: mapp res to BoardModel
-    return new CreateResult(CreateResultStatus.Created, new BoardModel('Test'));
+    const board = await this.gateway.create(command.name);
+    const boardModel = this.mapper.map(board, Board, BoardModel);
+    return new CreateResult(CreateResultStatus.Created, boardModel);
   }
 }

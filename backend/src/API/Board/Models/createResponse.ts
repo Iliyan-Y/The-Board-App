@@ -1,6 +1,6 @@
 import { AutoMap } from '@automapper/classes';
 
-export class BoardModel {
+export class CreateResponse {
   @AutoMap()
   name: string;
   constructor(name: string) {
