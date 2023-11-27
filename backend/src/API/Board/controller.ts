@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { BoardService } from 'src/Domain/Board/service';
+import { BoardService, CreateCommand } from 'src/Domain/Board/service';
 
 @Controller()
 export class BoardController {
@@ -7,7 +7,7 @@ export class BoardController {
 
   @Get()
   async get(): Promise<string> {
-    await this.service.create('test bombo');
+    await this.service.create(new CreateCommand('bobo'));
     return 'OK';
   }
 }
