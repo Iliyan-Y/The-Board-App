@@ -3,9 +3,9 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Board {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   @AutoMap()
-  id: number;
+  id: string;
 
   @Column()
   @AutoMap()
