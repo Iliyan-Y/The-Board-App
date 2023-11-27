@@ -41,6 +41,10 @@ export class BoardService implements BoardServiceAbstract {
 
   async create(command: CreateCommand): Promise<CreateResult> {
     const board = await this.gateway.create(command.name);
+    if (!board) return new CreateResult(CreateResultStatus.FailedToCreate);
+    if (await this.gateway.exist(command.name))
+      return new CreateResult(CreateResultStatus.AlreadyExists);
+
     const boardModel = this.mapper.map(board, Board, BoardModel);
     return new CreateResult(CreateResultStatus.Created, boardModel);
   }

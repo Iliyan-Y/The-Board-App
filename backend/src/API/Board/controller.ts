@@ -1,9 +1,21 @@
-import { Controller, Post, HttpCode } from '@nestjs/common';
-import { BoardService, CreateCommand } from 'src/Domain/Board/service';
+import {
+  Controller,
+  Post,
+  HttpCode,
+  Body,
+  HttpStatus,
+  HttpException,
+} from '@nestjs/common';
+import {
+  BoardService,
+  CreateCommand,
+  CreateResultStatus,
+} from 'src/Domain/Board/service';
 import { CreateResponse } from './Models/createResponse';
-import { InjectMapper } from '@automapper/nestjs';
+import { InjectMapper, MapPipe } from '@automapper/nestjs';
 import { Mapper } from '@automapper/core';
 import { BoardModel } from 'src/Domain/Board/model';
+import { CreateRequest } from './Models/createRequest';
 
 @Controller()
 export class BoardController {
@@ -14,9 +26,20 @@ export class BoardController {
 
   @Post()
   @HttpCode(201)
-  async create(): Promise<CreateResponse> {
-    const result = await this.service.create(new CreateCommand('bobo'));
-    const response = this.mapper.map(result.model, BoardModel, CreateResponse);
-    return response;
+  async create(
+    @Body(MapPipe(CreateRequest, CreateCommand)) command: CreateCommand,
+  ): Promise<CreateResponse> {
+    const result = await this.service.create(command);
+
+    switch (result.status) {
+      case CreateResultStatus.Created:
+        return this.mapper.map(result.model, BoardModel, CreateResponse);
+      case CreateResultStatus.AlreadyExists:
+        throw new HttpException('AlreadyExists', HttpStatus.CONFLICT);
+      default:
+        throw Error(
+          `An unexpected issue occurred when creating Board. Result Status was: ${result.status}`,
+        );
+    }
   }
 }
