@@ -16,6 +16,7 @@ export class BoardProfile extends AutomapperProfile {
   override get profile() {
     return (mapper) => {
       createMap(mapper, Board, BoardModel);
+      createMap(mapper, CreateCommand, Board);
       createMap(mapper, BoardModel, CreateResponse);
       createMap(
         mapper,

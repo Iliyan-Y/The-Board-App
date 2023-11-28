@@ -4,8 +4,10 @@ import { BoardGateway } from 'src/Gateways/Board/gateway';
 import { InjectMapper } from '@automapper/nestjs';
 import { Mapper } from '@automapper/core';
 import { Board } from 'src/Gateways/Board/entity';
+import { AutoMap } from '@automapper/classes';
 
 export class CreateCommand {
+  @AutoMap()
   name: string;
 
   constructor(name: string) {
@@ -40,10 +42,12 @@ export class BoardService implements BoardServiceAbstract {
   ) {}
 
   async create(command: CreateCommand): Promise<CreateResult> {
-    if (await this.gateway.exist(command.name))
+    const model = this.mapper.map(command, CreateCommand, Board);
+
+    if (await this.gateway.exist(model))
       return new CreateResult(CreateResultStatus.AlreadyExists);
 
-    const board = await this.gateway.create(command.name);
+    const board = await this.gateway.create(model);
     if (!board) return new CreateResult(CreateResultStatus.FailedToCreate);
 
     const boardModel = this.mapper.map(board, Board, BoardModel);

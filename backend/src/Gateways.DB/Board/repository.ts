@@ -8,17 +8,17 @@ export class BoardRepository implements BoardGateway {
     @InjectRepository(Board)
     private repository: Repository<Board>,
   ) {}
-  async exist(name: string): Promise<boolean> {
+  async exist(model: Board): Promise<boolean> {
     const res = await this.repository.find({
       where: {
-        name,
+        name: model.name,
       },
     });
     return res.length > 0;
   }
 
-  async create(name: string): Promise<Board> {
-    const board = this.repository.create({ name });
+  async create(model: Board): Promise<Board> {
+    const board = this.repository.create(model);
     await this.repository.save(board);
     return board;
   }

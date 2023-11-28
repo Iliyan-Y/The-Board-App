@@ -3,7 +3,7 @@ import { Board } from './entity';
 
 @Injectable()
 export abstract class BoardGateway {
-  abstract create(name: string): Promise<Board>;
+  abstract create(model: Board): Promise<Board>;
 
-  abstract exist(name: string): Promise<boolean>;
+  abstract exist(model: Board): Promise<boolean>;
 }
