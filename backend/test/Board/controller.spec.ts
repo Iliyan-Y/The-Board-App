@@ -17,11 +17,13 @@ import { TypeOrmTestingModule } from '../helpers/db';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { CreateResponse } from 'src/API/Board/Models/createResponse';
+import { Repository } from 'typeorm';
+import { getRepositoryToken } from '@nestjs/typeorm';
 
 describe('board controller', () => {
   let app: INestApplication;
   let controller: BoardController;
-  // todo create request to match controller expectations
+
   const mockRequest = httpMocks.createRequest();
   mockRequest.body = {
     boardName: 'Test-123',
@@ -84,7 +86,23 @@ describe('board controller', () => {
   });
 
   // Prefer to run  e2e as it will also test the body mapping profile
-  it('/ (POST)', () => {
+  it('When no body then status code 500', () => {
+    return request(app.getHttpServer()).post('/').expect(500);
+  });
+
+  it('When record with the same name return conflict', async () => {
+    const repo = app.get<Repository<Board>>(getRepositoryToken(Board));
+    const board = repo.create({ name: 'test' });
+    await repo.save(board);
+    return request(app.getHttpServer())
+      .post('/')
+      .send({
+        boardName: 'test',
+      })
+      .expect(409);
+  });
+
+  it('When record created, return board object with name', () => {
     return request(app.getHttpServer())
       .post('/')
       .send({
