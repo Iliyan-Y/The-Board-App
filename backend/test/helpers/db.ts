@@ -1,12 +1,11 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Board } from 'src/Gateways/Board/entity';
 
-export const TypeOrmSQLITETestingModule = () => [
+export const TypeOrmTestingModule = (entities: any[]) => [
   TypeOrmModule.forRoot({
     type: 'better-sqlite3',
     database: ':memory:',
     dropSchema: true,
-    entities: [Board],
+    entities,
     synchronize: true,
   }),
   // CUSTOM DATA SOURCE EXAMPLE
@@ -26,5 +25,5 @@ export const TypeOrmSQLITETestingModule = () => [
   //     return dataSource;
   //   },
   // }),
-  TypeOrmModule.forFeature([Board]),
+  TypeOrmModule.forFeature(entities),
 ];

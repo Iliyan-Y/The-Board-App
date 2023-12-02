@@ -13,7 +13,7 @@ import { classes } from '@automapper/classes';
 import { BoardProfile } from 'src/Modules/Board/mapper.profile';
 import { BoardGateway } from 'src/Gateways/Board/gateway';
 import { BoardRepository } from 'src/Gateways.DB/Board/repository';
-import { TypeOrmSQLITETestingModule } from './helpers';
+import { TypeOrmTestingModule } from '../helpers/db';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { CreateResponse } from 'src/API/Board/Models/createResponse';
@@ -46,7 +46,7 @@ describe('board controller', () => {
         AutomapperModule.forRoot({
           strategyInitializer: classes(),
         }),
-        ...TypeOrmSQLITETestingModule(),
+        ...TypeOrmTestingModule([Board]),
       ],
       controllers: [BoardController],
       providers: [
@@ -84,7 +84,6 @@ describe('board controller', () => {
   });
 
   // Prefer to run  e2e as it will also test the body mapping profile
-
   it('/ (POST)', () => {
     return request(app.getHttpServer())
       .post('/')
