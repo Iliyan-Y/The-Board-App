@@ -1,67 +1,20 @@
 import { Board } from '../../src/Gateways/Board/entity';
-import * as httpMocks from 'node-mocks-http';
 import { CreateCommand } from '../../src/Domain/Board/service';
 import * as request from 'supertest';
 import { CreateResponse } from 'src/API/Board/Models/createResponse';
 import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { createDefaultTestingModule } from './setup';
+import { createDefaultTestingModule, mockDbModule } from './setup';
 
 describe('board controller', () => {
-  const mockRequest = httpMocks.createRequest();
-  mockRequest.body = {
+  const url = '/';
+  const body = {
     boardName: 'Test-123',
   };
-  // const entity: Board = {
-  //   name: 'Test',
-  // };
-
-  // const mockService = {
-  //   create: jest.fn().mockImplementation((model: Board) => {
-  //     return {
-  //       id: 1,
-  //       ...model,
-  //     };
-  //   }),
-  // };
-
-  // create fake module
-  // beforeEach(async () => {
-  //   const moduleFixture: TestingModule = await Test.createTestingModule({
-  //     imports: [
-  //       AutomapperModule.forRoot({
-  //         strategyInitializer: classes(),
-  //       }),
-  //       ...TypeOrmTestingModule([Board]),
-  //     ],
-  //     controllers: [BoardController],
-  //     providers: [
-  //       BoardProfile,
-  //       BoardService,
-  //       { provide: BoardGateway, useClass: BoardRepository },
-  //       // { provide: UserService, useValue: mockUserService },
-  //     ],
-  //   })
-  //     // .overrideProvider(BoardService)
-  //     // .useValue(mockService)
-  //     .compile()
-  //     .catch((err) => {
-  //       console.error(err);
-  //       throw err;
-  //     });
-
-  //   controller = moduleFixture.get<BoardController>(BoardController);
-  //   app = moduleFixture.createNestApplication();
-  //   await app.init();
-  // });
 
   afterEach(() => {
     jest.resetAllMocks();
   });
-
-  // {
-  //   id: expect.any(String),
-  //}
 
   it('Example controller test', async () => {
     const module = await createDefaultTestingModule();
@@ -74,7 +27,7 @@ describe('board controller', () => {
   it('When no body then status code 500', async () => {
     const { app } = await createDefaultTestingModule();
     await app.init();
-    return request(app.getHttpServer()).post('/').expect(500);
+    return request(app.getHttpServer()).post(url).expect(500);
   });
 
   it('When record with the same name return conflict', async () => {
@@ -82,14 +35,9 @@ describe('board controller', () => {
     await app.init();
 
     const repo = app.get<Repository<Board>>(getRepositoryToken(Board));
-    const board = repo.create({ name: 'test' });
+    const board = repo.create({ name: body.boardName });
     await repo.save(board);
-    return request(app.getHttpServer())
-      .post('/')
-      .send({
-        boardName: 'test',
-      })
-      .expect(409);
+    return request(app.getHttpServer()).post(url).send(body).expect(409);
   });
 
   it('When record created, return board object with name', async () => {
@@ -97,11 +45,60 @@ describe('board controller', () => {
     await app.init();
 
     return request(app.getHttpServer())
-      .post('/')
-      .send({
-        boardName: 'Test-123-44',
-      })
+      .post(url)
+      .send(body)
       .expect(201)
-      .expect({ name: 'Test-123-44' });
+      .expect({ name: body.boardName });
+  });
+
+  it('Should check for exist once', async () => {
+    const exist = jest.fn().mockImplementation((model: Board) => true);
+    const mockService = { exist };
+
+    const { app } = await mockDbModule(mockService);
+    await app.init();
+
+    await request(app.getHttpServer()).post(url).send(body);
+
+    expect(exist).toHaveBeenCalledTimes(1);
+  });
+
+  it('If name exist will NOT try to create record', async () => {
+    const exist = jest.fn().mockImplementation((model: Board) => true);
+    const create = jest.fn().mockImplementation((model: Board) => {
+      return {
+        id: 'some-uuid',
+        ...model,
+      };
+    });
+    const mockService = { exist, create };
+
+    const { app } = await mockDbModule(mockService);
+    await app.init();
+
+    await request(app.getHttpServer()).post(url).send(body);
+
+    expect(create).not.toHaveBeenCalled();
+  });
+
+  it('If name not exist will try to create record', async () => {
+    const create = jest.fn().mockImplementation((model: Board) => {
+      return {
+        id: 'some-uuid',
+        ...model,
+      };
+    });
+
+    const mockService = {
+      exist: jest.fn().mockImplementation((model: Board) => false),
+      create,
+    };
+
+    const { app } = await mockDbModule(mockService);
+    await app.init();
+
+    await request(app.getHttpServer()).post(url).send(body);
+
+    expect(create).toHaveBeenCalledTimes(1);
   });
 });

@@ -25,3 +25,17 @@ export async function createDefaultTestingModule() {
   const app = moduleFixture.createNestApplication();
   return { app, controller };
 }
+
+export async function mockDbModule(mockService: any) {
+  const moduleFixture = await createTestApi(entities, controllers, providers)
+    .overrideProvider(BoardGateway)
+    .useValue(mockService)
+    .compile()
+    .catch((err) => {
+      console.error(err);
+      throw err;
+    });
+  const controller = moduleFixture.get<BoardController>(BoardController);
+  const app = moduleFixture.createNestApplication();
+  return { app, controller };
+}
