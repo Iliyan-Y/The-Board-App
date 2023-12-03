@@ -72,7 +72,6 @@ describe('board controller', () => {
       };
     });
     const mockService = { exist, create };
-
     const { app } = await mockDbModule(mockService);
     await app.init();
 
@@ -88,12 +87,10 @@ describe('board controller', () => {
         ...model,
       };
     });
-
     const mockService = {
       exist: jest.fn().mockImplementation((model: Board) => false),
       create,
     };
-
     const { app } = await mockDbModule(mockService);
     await app.init();
 
