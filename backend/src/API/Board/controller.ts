@@ -29,6 +29,10 @@ export class BoardController {
   async create(
     @Body(MapPipe(CreateRequest, CreateCommand)) command: CreateCommand,
   ): Promise<CreateResponse> {
+    // Todo: Add proper validation middleware
+    if (!command || !command.name)
+      throw Error('All Body parameters are required');
+
     const result = await this.service.create(command);
 
     switch (result.status) {
