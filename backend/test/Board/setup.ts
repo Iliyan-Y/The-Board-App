@@ -1,3 +1,4 @@
+import { ValidationPipe } from '@nestjs/common';
 import { BoardController } from 'src/API/Board/controller';
 import { BoardService } from 'src/Domain/Board/service';
 import { BoardRepository } from 'src/Gateways.DB/Board/repository';
@@ -23,6 +24,7 @@ export async function createDefaultTestingModule() {
     });
   const controller = moduleFixture.get<BoardController>(BoardController);
   const app = moduleFixture.createNestApplication();
+  app.useGlobalPipes(new ValidationPipe({ enableDebugMessages: true }));
   return { app, controller };
 }
 
@@ -37,5 +39,6 @@ export async function mockDbModule(mockService: any) {
     });
   const controller = moduleFixture.get<BoardController>(BoardController);
   const app = moduleFixture.createNestApplication();
+  app.useGlobalPipes(new ValidationPipe({ enableDebugMessages: true }));
   return { app, controller };
 }
