@@ -5,6 +5,8 @@ import {
   Body,
   HttpStatus,
   HttpException,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import {
   BoardService,
@@ -27,12 +29,9 @@ export class BoardController {
   @Post()
   @HttpCode(201)
   async create(
+    @Body() body: CreateRequest, // <- will validate the body first
     @Body(MapPipe(CreateRequest, CreateCommand)) command: CreateCommand,
   ): Promise<CreateResponse> {
-    // Todo: Add proper validation middleware
-    if (!command || !command.name)
-      throw Error('All Body parameters are required');
-
     const result = await this.service.create(command);
 
     switch (result.status) {

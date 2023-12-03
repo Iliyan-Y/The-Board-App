@@ -5,6 +5,7 @@ import { CreateResponse } from 'src/API/Board/Models/createResponse';
 import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { createDefaultTestingModule, mockDbModule } from './setup';
+import { ValidationPipe } from '@nestjs/common';
 
 describe('board controller', () => {
   const url = '/';
@@ -19,15 +20,16 @@ describe('board controller', () => {
   it('Example controller test', async () => {
     const module = await createDefaultTestingModule();
     const command = new CreateCommand('From_the_test');
-    const expected = await module.controller.create(command);
+    const expected = await module.controller.create(body, command);
     expect(expected).toEqual(new CreateResponse('From_the_test'));
   });
 
   // Prefer to run  e2e as it will also test the body mapping profile
   it('When no body then status code 500', async () => {
     const { app } = await createDefaultTestingModule();
+    //app.useGlobalPipes(new ValidationPipe({ enableDebugMessages: true }));
     await app.init();
-    return request(app.getHttpServer()).post(url).expect(500);
+    return request(app.getHttpServer()).post(url).expect(400);
   });
 
   it('When record with the same name return conflict', async () => {
