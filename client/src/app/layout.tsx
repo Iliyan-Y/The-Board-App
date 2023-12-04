@@ -15,7 +15,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<html lang="en">
+		<html lang="en" data-theme="dark">
 			<body className={inter.className}>
 				{/* conditional render auth ?  */}
 				{/* {false ? <div> Auth component</div> :children} */}
