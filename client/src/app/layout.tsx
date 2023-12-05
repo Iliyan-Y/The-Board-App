@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { useRef } from "react";
+import { AppStore, makeStore } from "@/state/store";
+import { Provider } from "react-redux";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,13 +17,20 @@ export default function RootLayout({
 }: {
 	children: React.ReactNode;
 }) {
+	const storeRef = useRef<AppStore>();
+	if (!storeRef.current) {
+		// Create the store instance the first time this renders
+		storeRef.current = makeStore();
+	}
 	return (
-		<html lang="en" data-theme="black">
-			<body className={inter.className}>
-				{/* conditional render auth ?  */}
-				{/* {false ? <div> Auth component</div> :children} */}
-				{children}
-			</body>
-		</html>
+		<Provider store={storeRef.current}>
+			<html lang="en" data-theme="black">
+				<body className={inter.className}>
+					{/* conditional render auth ?  */}
+					{/* {false ? <div> Auth component</div> :children} */}
+					{children}
+				</body>
+			</html>
+		</Provider>
 	);
 }
