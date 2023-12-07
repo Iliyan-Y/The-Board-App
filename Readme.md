@@ -41,3 +41,8 @@ DB_NAME=your_db_name
 DB_USERNAME=your_db_user_name
 DB_PASSWORD=IF_password_required
 ```
+
+- install the dependency cd "backend"/"client `yarn install`
+
+- start the backend server - `yarn dev`
+- star the client server - `yarn dev`
