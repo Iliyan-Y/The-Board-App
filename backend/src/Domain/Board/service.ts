@@ -51,13 +51,22 @@ export class BoardService implements BoardServiceAbstract {
       return new CreateResult(CreateResultStatus.AlreadyExists);
 
     const board = await this.gateway.create(model);
-    const col = new BoardColumn();
-    col.name = "Appp";
-    col.board = board;
-    await this.columnsGateway.create(col);
+    await this.createInitialColumns(board);
     if (!board) return new CreateResult(CreateResultStatus.FailedToCreate);
 
     const boardModel = this.mapper.map(board, Board, BoardModel);
     return new CreateResult(CreateResultStatus.Created, boardModel);
+  }
+
+  // TODO: refactor this when user can create own columns
+  private async createInitialColumns(board: Board) {
+    const defaultNames = ["Applied", "Interviewing", "Rejected"];
+
+    for (const name of defaultNames) {
+      const col = new BoardColumn();
+      col.name = name;
+      col.board = board;
+      await this.columnsGateway.create(col);
+    }
   }
 }
