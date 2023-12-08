@@ -1,10 +1,10 @@
-import { AutoMap } from '@automapper/classes';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { Board } from '../Board/entity';
+import { AutoMap } from "@automapper/classes";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import { Board } from "../Board/entity";
 
 @Entity()
 export class BoardColumn {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn("uuid")
   @AutoMap()
   id: string;
 
