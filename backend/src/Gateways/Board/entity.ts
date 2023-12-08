@@ -1,10 +1,10 @@
-import { AutoMap } from '@automapper/classes';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { BoardColumn } from '../BoardColumn/entitiy';
+import { AutoMap } from "@automapper/classes";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { BoardColumn } from "../BoardColumn/entitiy";
 
 @Entity()
 export class Board {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   @AutoMap()
   id: string;
 
@@ -12,7 +12,7 @@ export class Board {
   @AutoMap()
   name: string;
 
-  @AutoMap()
+  @AutoMap(() => [BoardColumn])
   @OneToMany(() => BoardColumn, (column) => column.board)
   columns: BoardColumn[];
 }
