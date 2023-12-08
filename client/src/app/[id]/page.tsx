@@ -1,5 +1,11 @@
-const Board = () => {
-	return <div>Board View</div>;
+import BoardComponent from "@/components/board";
+
+const BoardPage = () => {
+	return (
+		<>
+			<BoardComponent />
+		</>
+	);
 };
 
-export default Board;
+export default BoardPage;

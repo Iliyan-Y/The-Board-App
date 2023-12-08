@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
 export interface Board {
+	id: string;
 	name: string;
 }
 
@@ -20,7 +21,7 @@ export const boardSlice = createSlice({
 	initialState,
 	reducers: {
 		setBoardState(state, action) {
-			state.boardState = action.payload;
+			state.boardState = [...state.boardState, action.payload];
 		},
 	},
 });

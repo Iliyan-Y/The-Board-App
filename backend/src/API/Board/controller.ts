@@ -5,8 +5,6 @@ import {
   Body,
   HttpStatus,
   HttpException,
-  UsePipes,
-  ValidationPipe,
 } from '@nestjs/common';
 import {
   BoardService,

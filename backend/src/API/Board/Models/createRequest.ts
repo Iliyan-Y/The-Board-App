@@ -5,7 +5,4 @@ export class CreateRequest {
   @AutoMap()
   @IsNotEmpty()
   boardName: string;
-  constructor(boardName: string) {
-    this.boardName = boardName;
-  }
 }

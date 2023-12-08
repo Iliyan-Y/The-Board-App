@@ -1,10 +1,12 @@
-import { Injectable } from '@nestjs/common';
-import { BoardModel } from './model';
-import { BoardGateway } from 'src/Gateways/Board/gateway';
-import { InjectMapper } from '@automapper/nestjs';
-import { Mapper } from '@automapper/core';
-import { Board } from 'src/Gateways/Board/entity';
-import { AutoMap } from '@automapper/classes';
+import { Injectable } from "@nestjs/common";
+import { BoardModel } from "./model";
+import { BoardGateway } from "src/Gateways/Board/gateway";
+import { InjectMapper } from "@automapper/nestjs";
+import { Mapper } from "@automapper/core";
+import { Board } from "src/Gateways/Board/entity";
+import { AutoMap } from "@automapper/classes";
+import { BoardColumnGateway } from "src/Gateways/BoardColumn/gateway";
+import { BoardColumn } from "src/Gateways/BoardColumn/entitiy";
 
 export class CreateCommand {
   @AutoMap()
@@ -17,8 +19,8 @@ export class CreateCommand {
 
 export enum CreateResultStatus {
   Created = 1,
-  AlreadyExists = 'AlreadyExists',
-  FailedToCreate = 'FailedToCreate',
+  AlreadyExists = "AlreadyExists",
+  FailedToCreate = "FailedToCreate",
 }
 
 class CreateResult {
@@ -38,6 +40,7 @@ abstract class BoardServiceAbstract {
 export class BoardService implements BoardServiceAbstract {
   constructor(
     private readonly gateway: BoardGateway,
+    private readonly columnsGateway: BoardColumnGateway,
     @InjectMapper() private readonly mapper: Mapper,
   ) {}
 
@@ -48,9 +51,22 @@ export class BoardService implements BoardServiceAbstract {
       return new CreateResult(CreateResultStatus.AlreadyExists);
 
     const board = await this.gateway.create(model);
+    await this.createInitialColumns(board);
     if (!board) return new CreateResult(CreateResultStatus.FailedToCreate);
 
     const boardModel = this.mapper.map(board, Board, BoardModel);
     return new CreateResult(CreateResultStatus.Created, boardModel);
+  }
+
+  // TODO: refactor this when user can create own columns
+  private async createInitialColumns(board: Board) {
+    const defaultNames = ["Applied", "Interviewing", "Rejected"];
+
+    for (const name of defaultNames) {
+      const col = new BoardColumn();
+      col.name = name;
+      col.board = board;
+      await this.columnsGateway.create(col);
+    }
   }
 }
