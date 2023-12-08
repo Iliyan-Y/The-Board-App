@@ -1,15 +1,9 @@
 "use client";
 import { useState } from "react";
 
-// const dragDefaultState = {
-// 	parentIndex: -1,
-// 	itemIndex: -1,
-// };
-
 const BoardComponent = () => {
+	// TODO: refactor naming
 	const [selectedIndex, setSelectedIndex] = useState(-1);
-	const [draggedElement, setElement] = useState<any>();
-
 	const [masterParent, setMasterParent] = useState(-1);
 	const [masterChild, setMasterChild] = useState(-1);
 	const [columns, setColumns] = useState([
@@ -19,7 +13,7 @@ const BoardComponent = () => {
 	]);
 
 	const columnStyle = "border w-3/12 text-center mx-1";
-
+	// TODO: refactor split in smaller chunks
 	const handleUpdateState = () => {
 		console.log(selectedIndex);
 		if (selectedIndex === masterParent) return;
@@ -48,6 +42,7 @@ const BoardComponent = () => {
 		});
 	};
 
+	// TODO: extract functions and components
 	return (
 		<div className="h-screen m-2">
 			<h1>BOARD NAME HERE</h1>
@@ -84,7 +79,7 @@ const BoardComponent = () => {
 							))}
 					</div>
 				))}
-				{/* TODO: */}
+				{/* TODO: add button for adding columns */}
 				{/* <div className={columnStyle}>+</div> */}
 			</div>
 		</div>
