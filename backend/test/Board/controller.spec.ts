@@ -1,38 +1,38 @@
-import { Board } from '../../src/Gateways/Board/entity';
-import { CreateCommand } from '../../src/Domain/Board/service';
-import * as request from 'supertest';
-import { CreateResponse } from 'src/API/Board/Models/createResponse';
-import { Repository } from 'typeorm';
-import { getRepositoryToken } from '@nestjs/typeorm';
-import { createDefaultTestingModule, mockDbModule } from './setup';
-import { ValidationPipe } from '@nestjs/common';
+import { Board } from "../../src/Gateways/Board/entity";
+import { CreateCommand } from "../../src/Domain/Board/services/create";
+import * as request from "supertest";
+import { CreateResponse } from "src/API/Board/Models/createResponse";
+import { Repository } from "typeorm";
+import { getRepositoryToken } from "@nestjs/typeorm";
+import { createDefaultTestingModule, mockDbModule } from "./setup";
+import { ValidationPipe } from "@nestjs/common";
 
-describe('board controller', () => {
-  const url = '/';
+describe("board controller", () => {
+  const url = "/";
   const body = {
-    boardName: 'Test-123',
+    boardName: "Test-123",
   };
 
   afterEach(() => {
     jest.resetAllMocks();
   });
 
-  it('Example controller test', async () => {
+  it("Example controller test", async () => {
     const module = await createDefaultTestingModule();
-    const command = new CreateCommand('From_the_test');
+    const command = new CreateCommand("From_the_test");
     const expected = await module.controller.create(body, command);
-    expect(expected).toEqual(new CreateResponse('From_the_test'));
+    expect(expected).toEqual(new CreateResponse("From_the_test"));
   });
 
   // Prefer to run  e2e as it will also test the body mapping profile
-  it('When no body then status code 500', async () => {
+  it("When no body then status code 500", async () => {
     const { app } = await createDefaultTestingModule();
     //app.useGlobalPipes(new ValidationPipe({ enableDebugMessages: true }));
     await app.init();
     return request(app.getHttpServer()).post(url).expect(400);
   });
 
-  it('When record with the same name return conflict', async () => {
+  it("When record with the same name return conflict", async () => {
     const { app } = await createDefaultTestingModule();
     await app.init();
 
@@ -42,7 +42,7 @@ describe('board controller', () => {
     return request(app.getHttpServer()).post(url).send(body).expect(409);
   });
 
-  it('When record created, return board object with name', async () => {
+  it("When record created, return board object with name", async () => {
     const { app } = await createDefaultTestingModule();
     await app.init();
 
@@ -53,7 +53,7 @@ describe('board controller', () => {
       .expect({ name: body.boardName });
   });
 
-  it('Should check for exist once', async () => {
+  it("Should check for exist once", async () => {
     const exist = jest.fn().mockImplementation((model: Board) => true);
     const mockService = { exist };
 
@@ -65,11 +65,11 @@ describe('board controller', () => {
     expect(exist).toHaveBeenCalledTimes(1);
   });
 
-  it('If name exist will NOT try to create record', async () => {
+  it("If name exist will NOT try to create record", async () => {
     const exist = jest.fn().mockImplementation((model: Board) => true);
     const create = jest.fn().mockImplementation((model: Board) => {
       return {
-        id: 'some-uuid',
+        id: "some-uuid",
         ...model,
       };
     });
@@ -82,10 +82,10 @@ describe('board controller', () => {
     expect(create).not.toHaveBeenCalled();
   });
 
-  it('If name not exist will try to create record', async () => {
+  it("If name not exist will try to create record", async () => {
     const create = jest.fn().mockImplementation((model: Board) => {
       return {
-        id: 'some-uuid',
+        id: "some-uuid",
         ...model,
       };
     });

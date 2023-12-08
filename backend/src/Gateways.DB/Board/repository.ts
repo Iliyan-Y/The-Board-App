@@ -1,13 +1,27 @@
-import { InjectRepository } from '@nestjs/typeorm';
-import { Board } from 'src/Gateways/Board/entity';
-import { BoardGateway } from 'src/Gateways/Board/gateway';
-import { Repository } from 'typeorm';
+import { InjectRepository } from "@nestjs/typeorm";
+import { Board } from "src/Gateways/Board/entity";
+import { BoardGateway } from "src/Gateways/Board/gateway";
+import { Repository } from "typeorm";
 
 export class BoardRepository implements BoardGateway {
   constructor(
     @InjectRepository(Board)
     private repository: Repository<Board>,
   ) {}
+
+  async get(id: string): Promise<Board> {
+    const board = await this.repository.findOne({
+      where: {
+        id: id,
+      },
+      relations: {
+        columns: true,
+      },
+    });
+    console.log("Entitiy !! +==>>>", board);
+    return board;
+  }
+
   async exist(model: Board): Promise<boolean> {
     const res = await this.repository.find({
       where: {

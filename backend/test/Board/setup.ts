@@ -1,17 +1,17 @@
-import { ValidationPipe } from '@nestjs/common';
-import { BoardController } from 'src/API/Board/controller';
-import { BoardService } from 'src/Domain/Board/service';
-import { BoardRepository } from 'src/Gateways.DB/Board/repository';
-import { Board } from 'src/Gateways/Board/entity';
-import { BoardGateway } from 'src/Gateways/Board/gateway';
-import { BoardProfile } from 'src/Modules/Board/mapper.profile';
-import { createTestApi } from 'test/helpers/api';
+import { ValidationPipe } from "@nestjs/common";
+import { BoardController } from "src/API/Board/controller";
+import { CreateService } from "src/Domain/Board/services/create";
+import { BoardRepository } from "src/Gateways.DB/Board/repository";
+import { Board } from "src/Gateways/Board/entity";
+import { BoardGateway } from "src/Gateways/Board/gateway";
+import { BoardProfile } from "src/Modules/Board/mapper.profile";
+import { createTestApi } from "test/helpers/api";
 
 const entities = [Board];
 const controllers = [BoardController];
 const providers = [
   BoardProfile,
-  BoardService,
+  CreateService,
   { provide: BoardGateway, useClass: BoardRepository },
 ];
 

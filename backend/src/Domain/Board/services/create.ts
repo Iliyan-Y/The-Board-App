@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { BoardModel } from "./model";
+import { BoardModel } from "../model";
 import { BoardGateway } from "src/Gateways/Board/gateway";
 import { InjectMapper } from "@automapper/nestjs";
 import { Mapper } from "@automapper/core";
@@ -32,12 +32,12 @@ class CreateResult {
   }
 }
 
-abstract class BoardServiceAbstract {
+abstract class CreateBoard {
   abstract create(command: CreateCommand): Promise<CreateResult>;
 }
 
 @Injectable()
-export class BoardService implements BoardServiceAbstract {
+export class CreateService implements CreateBoard {
   constructor(
     private readonly gateway: BoardGateway,
     private readonly columnsGateway: BoardColumnGateway,
