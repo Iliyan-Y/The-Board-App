@@ -18,7 +18,6 @@ export class BoardRepository implements BoardGateway {
         columns: true,
       },
     });
-    console.log("Entitiy !! +==>>>", board);
     return board;
   }
 

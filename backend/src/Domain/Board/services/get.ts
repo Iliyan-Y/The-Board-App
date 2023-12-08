@@ -18,6 +18,7 @@ export class GetCommand {
 
 export enum GetResultStatus {
   Found = 1,
+  NotFound,
 }
 
 class GetResult {
@@ -43,6 +44,9 @@ export class GetBoardService implements GetBoard {
   async get(command: GetCommand): Promise<GetResult> {
     const board = await this.gateway.get(command.id);
     const boardModel = this.mapper.map(board, Board, BoardModel);
+
+    if (!boardModel) return new GetResult(GetResultStatus.NotFound);
+
     return new GetResult(GetResultStatus.Found, boardModel);
   }
 }

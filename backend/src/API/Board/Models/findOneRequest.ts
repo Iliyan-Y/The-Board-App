@@ -1,8 +1,8 @@
 import { AutoMap } from "@automapper/classes";
 import { IsNotEmpty } from "class-validator";
 
-export class CreateRequest {
+export class FindOneRequest {
   @AutoMap()
   @IsNotEmpty()
-  boardName: string;
+  id: string;
 }

@@ -18,7 +18,12 @@ import { InjectMapper, MapPipe } from "@automapper/nestjs";
 import { Mapper } from "@automapper/core";
 import { BoardModel } from "src/Domain/Board/model";
 import { CreateRequest } from "./Models/createRequest";
-import { GetBoardService, GetCommand } from "src/Domain/Board/services/get";
+import {
+  GetBoardService,
+  GetCommand,
+  GetResultStatus,
+} from "src/Domain/Board/services/get";
+import { FindOneRequest } from "./Models/findOneRequest";
 
 @Controller()
 export class BoardController {
@@ -29,9 +34,21 @@ export class BoardController {
   ) {}
 
   @Get(":id")
-  async findOne(@Param() params: any) {
-    const result = await this.getService.get(new GetCommand(params.id));
-    return result;
+  async findOne(
+    @Param(MapPipe(FindOneRequest, GetCommand)) command: GetCommand,
+  ) {
+    const result = await this.getService.get(command);
+
+    switch (result.status) {
+      case GetResultStatus.Found:
+        return result.model;
+      case GetResultStatus.NotFound:
+        throw new HttpException("Not Found", HttpStatus.NOT_FOUND);
+      default:
+        throw Error(
+          `An unexpected issue occurred when creating Board. Result was: ${result}`,
+        );
+    }
   }
 
   @Post()
