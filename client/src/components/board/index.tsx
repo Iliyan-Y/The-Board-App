@@ -1,7 +1,11 @@
 "use client";
-import { useState } from "react";
+import { api } from "@/helpers/api";
+import axios from "axios";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const BoardComponent = () => {
+	const { id } = useParams();
 	// TODO: refactor naming
 	const [selectedIndex, setSelectedIndex] = useState(-1);
 	const [masterParent, setMasterParent] = useState(-1);
@@ -38,7 +42,27 @@ const BoardComponent = () => {
 			});
 			return updatedLinks;
 		});
+
+		setSelectedIndex(-1);
+		//todo: reset dragging ?
 	};
+
+	//TODO: Optimize using state ?
+	//------------------
+	// const getBoard = async () => {
+	// 	axios
+	// 		.get(`${api}/${id}`)
+	// 		.then((res) => {
+	// 			setColumns(res.data.columns);
+	// 		})
+	// 		.catch((e) => console.error(e));
+	// };
+
+	// useEffect(() => {
+	// 	getBoard();
+	// }, []);
+
+	//------------------
 
 	// TODO: extract functions and components
 	return (
@@ -53,14 +77,11 @@ const BoardComponent = () => {
 						key={c && c.name}
 						className={columnStyle}
 						onDragOver={() => setSelectedIndex(parentIndex)}
-						onDragEnd={() => {
-							handleUpdateState();
-							//setSelectedIndex(-1);
-							// setDraggedElement(dragDefaultState)
-						}}
+						onDragEnd={handleUpdateState}
 					>
 						<div className="border-b min-w-full py-5">{c ? c.name : ""}</div>
 						{c &&
+							c.tasks &&
 							c.tasks.map((t, itemIndex) => (
 								<div
 									draggable

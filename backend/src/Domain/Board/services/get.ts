@@ -42,7 +42,7 @@ export class GetBoardService implements GetBoard {
   ) {}
 
   async get(command: GetCommand): Promise<GetResult> {
-    const board = await this.gateway.get(command.id);
+    const board = await this.gateway.findOne(command.id);
     const boardModel = this.mapper.map(board, Board, BoardModel);
 
     if (!boardModel) return new GetResult(GetResultStatus.NotFound);

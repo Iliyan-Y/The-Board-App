@@ -9,7 +9,7 @@ export class BoardRepository implements BoardGateway {
     private repository: Repository<Board>,
   ) {}
 
-  async get(id: string): Promise<Board> {
+  async findOne(id: string): Promise<Board> {
     const board = await this.repository.findOne({
       where: {
         id: id,
