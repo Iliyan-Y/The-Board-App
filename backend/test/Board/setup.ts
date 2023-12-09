@@ -1,18 +1,24 @@
 import { ValidationPipe } from "@nestjs/common";
 import { BoardController } from "src/API/Board/controller";
 import { CreateService } from "src/Domain/Board/services/create";
+import { GetBoardService } from "src/Domain/Board/services/get";
 import { BoardRepository } from "src/Gateways.DB/Board/repository";
+import { BoardColumnRepository } from "src/Gateways.DB/BoardColumn/repository";
 import { Board } from "src/Gateways/Board/entity";
 import { BoardGateway } from "src/Gateways/Board/gateway";
+import { BoardColumn } from "src/Gateways/BoardColumn/entitiy";
+import { BoardColumnGateway } from "src/Gateways/BoardColumn/gateway";
 import { BoardProfile } from "src/Modules/Board/mapper.profile";
 import { createTestApi } from "test/helpers/api";
 
-const entities = [Board];
+const entities = [Board, BoardColumn];
 const controllers = [BoardController];
 const providers = [
   BoardProfile,
   CreateService,
   { provide: BoardGateway, useClass: BoardRepository },
+  { provide: BoardColumnGateway, useClass: BoardColumnRepository },
+  GetBoardService,
 ];
 
 export async function createDefaultTestingModule() {

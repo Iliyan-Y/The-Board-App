@@ -1,8 +1,8 @@
-import { classes } from '@automapper/classes';
-import { AutomapperModule } from '@automapper/nestjs';
-import { Test, TestingModuleBuilder } from '@nestjs/testing';
-import { TypeOrmTestingModule } from './db';
-import { Provider } from '@nestjs/common';
+import { classes } from "@automapper/classes";
+import { AutomapperModule } from "@automapper/nestjs";
+import { Test, TestingModuleBuilder } from "@nestjs/testing";
+import { TypeOrmTestingModule } from "./db";
+import { Provider } from "@nestjs/common";
 
 export function createTestApi(
   entities: any[],

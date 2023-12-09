@@ -21,7 +21,7 @@ describe("board controller", () => {
     const module = await createDefaultTestingModule();
     const command = new CreateCommand("From_the_test");
     const expected = await module.controller.create(body, command);
-    expect(expected).toEqual(new CreateResponse("From_the_test"));
+    expect(expected.name).toEqual("From_the_test");
   });
 
   // Prefer to run  e2e as it will also test the body mapping profile
@@ -42,15 +42,14 @@ describe("board controller", () => {
     return request(app.getHttpServer()).post(url).send(body).expect(409);
   });
 
-  it("When record created, return board object with name", async () => {
+  it("When record created, return board object with id", async () => {
     const { app } = await createDefaultTestingModule();
     await app.init();
 
-    return request(app.getHttpServer())
-      .post(url)
-      .send(body)
-      .expect(201)
-      .expect({ name: body.boardName });
+    const result = await request(app.getHttpServer()).post(url).send(body);
+
+    expect(result.status).toBe(201);
+    expect(typeof result.body.id).toBe("string");
   });
 
   it("Should check for exist once", async () => {

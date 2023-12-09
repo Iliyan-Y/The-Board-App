@@ -1,9 +1,9 @@
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmModule } from "@nestjs/typeorm";
 
 export const TypeOrmTestingModule = (entities: any[]) => [
   TypeOrmModule.forRoot({
-    type: 'better-sqlite3',
-    database: ':memory:',
+    type: "better-sqlite3",
+    database: ":memory:",
     dropSchema: true,
     entities,
     synchronize: true,

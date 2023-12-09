@@ -21,13 +21,11 @@ const BoardComponent = () => {
 
 		setColumns((state) => {
 			const updatedLinks = state.map((item, index) => {
-				//console.log(item, index, dragDefaultState);
-
 				if (index === selectedIndex) {
 					// add to the tasks
 					const task = state[masterParent].tasks[masterChild];
 					const newTaskArray = [...item.tasks, task];
-					return { name: item.name, tasks: newTaskArray };
+					return { ...item, tasks: newTaskArray };
 				}
 
 				if (index === masterParent) {
