@@ -1,13 +1,12 @@
 import { Board } from "../../src/Gateways/Board/entity";
 import { CreateCommand } from "../../src/Domain/Board/services/create";
 import * as request from "supertest";
-import { CreateResponse } from "src/API/Board/Models/createResponse";
 import { Repository } from "typeorm";
 import { getRepositoryToken } from "@nestjs/typeorm";
 import { createDefaultTestingModule, mockDbModule } from "./setup";
-import { ValidationPipe } from "@nestjs/common";
+import { BoardGateway } from "src/Gateways/Board/gateway";
 
-describe("board controller", () => {
+describe("board controller create", () => {
   const url = "/";
   const body = {
     boardName: "Test-123",
@@ -27,7 +26,6 @@ describe("board controller", () => {
   // Prefer to run  e2e as it will also test the body mapping profile
   it("When no body then status code 500", async () => {
     const { app } = await createDefaultTestingModule();
-    //app.useGlobalPipes(new ValidationPipe({ enableDebugMessages: true }));
     await app.init();
     return request(app.getHttpServer()).post(url).expect(400);
   });
@@ -56,7 +54,7 @@ describe("board controller", () => {
     const exist = jest.fn().mockImplementation((model: Board) => true);
     const mockService = { exist };
 
-    const { app } = await mockDbModule(mockService);
+    const { app } = await mockDbModule(BoardGateway, mockService);
     await app.init();
 
     await request(app.getHttpServer()).post(url).send(body);
@@ -73,7 +71,7 @@ describe("board controller", () => {
       };
     });
     const mockService = { exist, create };
-    const { app } = await mockDbModule(mockService);
+    const { app } = await mockDbModule(BoardGateway, mockService);
     await app.init();
 
     await request(app.getHttpServer()).post(url).send(body);
@@ -92,7 +90,7 @@ describe("board controller", () => {
       exist: jest.fn().mockImplementation((model: Board) => false),
       create,
     };
-    const { app } = await mockDbModule(mockService);
+    const { app } = await mockDbModule(BoardGateway, mockService);
     await app.init();
 
     await request(app.getHttpServer()).post(url).send(body);

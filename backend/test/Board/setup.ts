@@ -34,10 +34,10 @@ export async function createDefaultTestingModule() {
   return { app, controller };
 }
 
-export async function mockDbModule(mockService: any) {
+export async function mockDbModule(gateway: any, mockGateway: any) {
   const moduleFixture = await createTestApi(entities, controllers, providers)
-    .overrideProvider(BoardGateway)
-    .useValue(mockService)
+    .overrideProvider(gateway)
+    .useValue(mockGateway)
     .compile()
     .catch((err) => {
       console.error(err);
