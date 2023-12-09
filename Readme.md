@@ -46,3 +46,7 @@ DB_PASSWORD=IF_password_required
 
 - start the backend server - `yarn dev`
 - star the client server - `yarn dev`
+
+# Test
+
+- cd to relevant solution backend/client and run: `yarn test`
