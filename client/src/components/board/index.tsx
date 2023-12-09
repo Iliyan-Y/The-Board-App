@@ -2,7 +2,8 @@
 import { api } from "@/helpers/api";
 import axios from "axios";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
+import BoardTask from "../task";
 
 const BoardComponent = () => {
 	const { id } = useParams();
@@ -11,9 +12,15 @@ const BoardComponent = () => {
 	const [masterParent, setMasterParent] = useState(-1);
 	const [masterChild, setMasterChild] = useState(-1);
 	const [columns, setColumns] = useState([
-		{ name: "Apply", tasks: [1] },
+		{ name: "Apply", tasks: [{ id: "1", name: "some name" }] },
 		{ name: "Interview", tasks: [] },
-		{ name: "Rejected", tasks: [12, 2] },
+		{
+			name: "Rejected",
+			tasks: [
+				{ id: "12", name: "some name 2" },
+				{ id: "2", name: "some name 3" },
+			],
+		},
 	]);
 
 	const columnStyle = "border w-3/12 text-center mx-1";
@@ -69,33 +76,25 @@ const BoardComponent = () => {
 		<div className="h-screen m-2">
 			<h1>BOARD NAME HERE</h1>
 			<div id="table-board" className="flex justify-evenly border h-5/6">
-				{columns.map((c, parentIndex) => (
+				{columns.map((column, parentIndex) => (
 					<div
 						style={{
 							background: selectedIndex === parentIndex ? "hotpink" : "inherit",
 						}}
-						key={c && c.name}
+						key={column && column.name}
 						className={columnStyle}
 						onDragOver={() => setSelectedIndex(parentIndex)}
 						onDragEnd={handleUpdateState}
 					>
-						<div className="border-b min-w-full py-5">{c ? c.name : ""}</div>
-						{c &&
-							c.tasks &&
-							c.tasks.map((t, itemIndex) => (
-								<div
-									draggable
-									key={t}
-									onDragStart={() => {
-										console.log("SETTING IT UP", parentIndex, itemIndex);
-										setMasterChild(itemIndex);
-										setMasterParent(parentIndex);
-									}}
-									className="cursor-move"
-								>
-									This will be job
-								</div>
-							))}
+						<div className="border-b min-w-full py-5">
+							{column ? column.name : ""}
+						</div>
+						<BoardTask
+							tasks={column.tasks}
+							setMasterChild={setMasterChild}
+							setMasterParent={setMasterParent}
+							parentIndex={parentIndex}
+						/>
 					</div>
 				))}
 				{/* TODO: add button for adding columns */}

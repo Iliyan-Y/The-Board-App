@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
+export interface Task {
+	id: string;
+	name: string;
+}
+
 export interface Board {
 	id: string;
 	name: string;
