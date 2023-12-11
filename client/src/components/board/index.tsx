@@ -1,12 +1,10 @@
 "use client";
 import { api } from "@/helpers/api";
 import axios from "axios";
-import { useParams } from "next/navigation";
 import { SetStateAction, useEffect, useState } from "react";
 import BoardTask from "../task";
 
-const BoardComponent = () => {
-	const { id } = useParams();
+const BoardPage = () => {
 	// TODO: refactor naming
 	const [selectedIndex, setSelectedIndex] = useState(-1);
 	const [masterParent, setMasterParent] = useState(-1);
@@ -104,4 +102,4 @@ const BoardComponent = () => {
 	);
 };
 
-export default BoardComponent;
+export default BoardPage;
