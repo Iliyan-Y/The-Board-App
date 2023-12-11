@@ -4,14 +4,26 @@ import { Provider } from "react-redux";
 import { store } from "../../state/store";
 import "../../index.css";
 
-describe("<HomePage />", () => {
-	it("renders", () => {
-		// see: https://on.cypress.io/mounting-react
+const render = () =>
+	cy.mount(
+		<Provider store={store}>
+			<HomePage />
+		</Provider>
+	);
 
-		cy.mount(
-			<Provider store={store}>
-				<HomePage />
-			</Provider>
-		);
+describe("<HomePage />", () => {
+	it("renders h3 title", () => {
+		render();
+		cy.get("h3").should("contains.text", "New Board");
+	});
+
+	it("change input text", () => {
+		render();
+		cy.get('input[placeholder="Name"]').type("Kitty");
+	});
+
+	it("change click the buutton", () => {
+		render();
+		cy.get("button").contains("Create");
 	});
 });
