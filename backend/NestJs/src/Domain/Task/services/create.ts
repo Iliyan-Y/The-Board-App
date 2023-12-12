@@ -4,6 +4,7 @@ import { Injectable } from "@nestjs/common";
 import { TaskGateway } from "src/Gateways/Task/gateway";
 import { Mapper } from "@automapper/core";
 import { InjectMapper } from "@automapper/nestjs";
+import { Task } from "src/Gateways/Task/entity";
 
 export class CreateCommand {
   @AutoMap()
@@ -14,6 +15,7 @@ export class CreateCommand {
 
   @AutoMap()
   columnId: string;
+
   constructor(name: string, description: string, columnId: string) {
     this.name = name;
     this.columnId = columnId;
@@ -46,7 +48,10 @@ export class CreateTaskService implements CreateTask {
     @InjectMapper() private readonly mapper: Mapper,
   ) {}
 
-  create(command: CreateCommand): Promise<CreateResult> {
-    throw new Error("Method not implemented.");
+  async create(command: CreateCommand): Promise<CreateResult> {
+    const model = this.mapper.map(command, CreateCommand, Task);
+    const task = await this.gateway.create(model);
+    const taskModel = this.mapper.map(task, Task, TaskModel);
+    return new CreateResult(CreateResultStatus.Created, taskModel);
   }
 }

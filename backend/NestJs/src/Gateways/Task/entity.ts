@@ -12,7 +12,7 @@ export class Task {
   @AutoMap()
   name: string;
 
-  @Column()
+  @Column({ type: "text", nullable: true })
   @AutoMap()
   description: string;
 

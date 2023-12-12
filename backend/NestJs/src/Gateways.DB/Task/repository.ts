@@ -6,7 +6,9 @@ import { Repository } from "typeorm";
 export class TaskRepository implements TaskGateway {
   constructor(@InjectRepository(Task) private repository: Repository<Task>) {}
 
-  create(model: Task): Promise<Task> {
-    throw new Error("Method not implemented.");
+  async create(model: Task): Promise<Task> {
+    const task = this.repository.create(model);
+    await this.repository.save(task);
+    return task;
   }
 }
