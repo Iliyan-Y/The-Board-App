@@ -1,1 +1,1 @@
-export const api = process.env.NEXT_PUBLIC_API_BASE_PATH;
+export const api = import.meta.env.VITE_PUBLIC_API_BASE_PATH;

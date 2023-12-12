@@ -1,15 +1,24 @@
 "use client";
-import { useState } from "react";
+import { api } from "@/helpers/api";
+import axios from "axios";
+import { SetStateAction, useEffect, useState } from "react";
+import BoardTask from "../task";
 
-const BoardComponent = () => {
+const BoardTable = () => {
 	// TODO: refactor naming
 	const [selectedIndex, setSelectedIndex] = useState(-1);
 	const [masterParent, setMasterParent] = useState(-1);
 	const [masterChild, setMasterChild] = useState(-1);
 	const [columns, setColumns] = useState([
-		{ name: "Apply", tasks: [1] },
+		{ name: "Apply", tasks: [{ id: "1", name: "some name" }] },
 		{ name: "Interview", tasks: [] },
-		{ name: "Rejected", tasks: [12, 2] },
+		{
+			name: "Rejected",
+			tasks: [
+				{ id: "12", name: "some name 2" },
+				{ id: "2", name: "some name 3" },
+			],
+		},
 	]);
 
 	const columnStyle = "border w-3/12 text-center mx-1";
@@ -21,13 +30,11 @@ const BoardComponent = () => {
 
 		setColumns((state) => {
 			const updatedLinks = state.map((item, index) => {
-				//console.log(item, index, dragDefaultState);
-
 				if (index === selectedIndex) {
 					// add to the tasks
 					const task = state[masterParent].tasks[masterChild];
 					const newTaskArray = [...item.tasks, task];
-					return { name: item.name, tasks: newTaskArray };
+					return { ...item, tasks: newTaskArray };
 				}
 
 				if (index === masterParent) {
@@ -40,43 +47,52 @@ const BoardComponent = () => {
 			});
 			return updatedLinks;
 		});
+
+		setSelectedIndex(-1);
+		//todo: reset dragging ?
 	};
+
+	//TODO: Optimize using state ?
+	//------------------
+	// const getBoard = async () => {
+	// 	axios
+	// 		.get(`${api}/${id}`)
+	// 		.then((res) => {
+	// 			setColumns(res.data.columns);
+	// 		})
+	// 		.catch((e) => console.error(e));
+	// };
+
+	// useEffect(() => {
+	// 	getBoard();
+	// }, []);
+
+	//------------------
 
 	// TODO: extract functions and components
 	return (
 		<div className="h-screen m-2">
 			<h1>BOARD NAME HERE</h1>
 			<div id="table-board" className="flex justify-evenly border h-5/6">
-				{columns.map((c, parentIndex) => (
+				{columns.map((column, parentIndex) => (
 					<div
 						style={{
 							background: selectedIndex === parentIndex ? "hotpink" : "inherit",
 						}}
-						key={c && c.name}
+						key={column && column.name}
 						className={columnStyle}
 						onDragOver={() => setSelectedIndex(parentIndex)}
-						onDragEnd={() => {
-							handleUpdateState();
-							//setSelectedIndex(-1);
-							// setDraggedElement(dragDefaultState)
-						}}
+						onDragEnd={handleUpdateState}
 					>
-						<div className="border-b min-w-full py-5">{c ? c.name : ""}</div>
-						{c &&
-							c.tasks.map((t, itemIndex) => (
-								<div
-									draggable
-									key={t}
-									onDragStart={() => {
-										console.log("SETTING IT UP", parentIndex, itemIndex);
-										setMasterChild(itemIndex);
-										setMasterParent(parentIndex);
-									}}
-									className="cursor-move"
-								>
-									This will be job
-								</div>
-							))}
+						<div className="border-b min-w-full py-5">
+							{column ? column.name : ""}
+						</div>
+						<BoardTask
+							tasks={column.tasks}
+							setMasterChild={setMasterChild}
+							setMasterParent={setMasterParent}
+							parentIndex={parentIndex}
+						/>
 					</div>
 				))}
 				{/* TODO: add button for adding columns */}
@@ -86,4 +102,4 @@ const BoardComponent = () => {
 	);
 };
 
-export default BoardComponent;
+export default BoardTable;

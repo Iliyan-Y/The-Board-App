@@ -1,18 +1,24 @@
-import { ValidationPipe } from '@nestjs/common';
-import { BoardController } from 'src/API/Board/controller';
-import { BoardService } from 'src/Domain/Board/service';
-import { BoardRepository } from 'src/Gateways.DB/Board/repository';
-import { Board } from 'src/Gateways/Board/entity';
-import { BoardGateway } from 'src/Gateways/Board/gateway';
-import { BoardProfile } from 'src/Modules/Board/mapper.profile';
-import { createTestApi } from 'test/helpers/api';
+import { ValidationPipe } from "@nestjs/common";
+import { BoardController } from "src/API/Board/controller";
+import { CreateService } from "src/Domain/Board/services/create";
+import { GetBoardService } from "src/Domain/Board/services/get";
+import { BoardRepository } from "src/Gateways.DB/Board/repository";
+import { BoardColumnRepository } from "src/Gateways.DB/BoardColumn/repository";
+import { Board } from "src/Gateways/Board/entity";
+import { BoardGateway } from "src/Gateways/Board/gateway";
+import { BoardColumn } from "src/Gateways/BoardColumn/entitiy";
+import { BoardColumnGateway } from "src/Gateways/BoardColumn/gateway";
+import { BoardProfile } from "src/Modules/Board/mapper.profile";
+import { createTestApi } from "test/helpers/api";
 
-const entities = [Board];
+const entities = [Board, BoardColumn];
 const controllers = [BoardController];
 const providers = [
   BoardProfile,
-  BoardService,
+  CreateService,
   { provide: BoardGateway, useClass: BoardRepository },
+  { provide: BoardColumnGateway, useClass: BoardColumnRepository },
+  GetBoardService,
 ];
 
 export async function createDefaultTestingModule() {
@@ -28,10 +34,10 @@ export async function createDefaultTestingModule() {
   return { app, controller };
 }
 
-export async function mockDbModule(mockService: any) {
+export async function mockDbModule(gateway: any, mockGateway: any) {
   const moduleFixture = await createTestApi(entities, controllers, providers)
-    .overrideProvider(BoardGateway)
-    .useValue(mockService)
+    .overrideProvider(gateway)
+    .useValue(mockGateway)
     .compile()
     .catch((err) => {
       console.error(err);
