@@ -6,7 +6,7 @@ import { BoardModel } from "src/Domain/Board/model";
 import { CreateResponse } from "src/API/Board/Models/createResponse";
 import { CreateRequest } from "src/API/Board/Models/createRequest";
 import { CreateCommand } from "src/Domain/Board/services/create";
-import { BoardColumn } from "src/Gateways/BoardColumn/entitiy";
+import { BoardColumn } from "src/Gateways/BoardColumn/entity";
 import { BoardColumnModel } from "src/Domain/BoardColumn/model";
 
 @Injectable()

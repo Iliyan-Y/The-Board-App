@@ -1,5 +1,5 @@
 import { InjectRepository } from "@nestjs/typeorm";
-import { BoardColumn } from "src/Gateways/BoardColumn/entitiy";
+import { BoardColumn } from "src/Gateways/BoardColumn/entity";
 import { BoardColumnGateway } from "src/Gateways/BoardColumn/gateway";
 import { Repository } from "typeorm";
 

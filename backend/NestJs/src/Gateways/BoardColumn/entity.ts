@@ -7,7 +7,7 @@ import {
   OneToMany,
 } from "typeorm";
 import { Board } from "../Board/entity";
-import { Task } from "../Task/entitiy";
+import { Task } from "../Task/entity";
 
 @Entity()
 export class BoardColumn {

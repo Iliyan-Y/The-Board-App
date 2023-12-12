@@ -1,6 +1,6 @@
 import { AutoMap } from "@automapper/classes";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { BoardColumn } from "../BoardColumn/entitiy";
+import { BoardColumn } from "../BoardColumn/entity";
 
 @Entity()
 export class Task {

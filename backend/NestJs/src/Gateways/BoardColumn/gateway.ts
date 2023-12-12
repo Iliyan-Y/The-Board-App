@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { BoardColumn } from "./entitiy";
+import { BoardColumn } from "./entity";
 
 @Injectable()
 export abstract class BoardColumnGateway {

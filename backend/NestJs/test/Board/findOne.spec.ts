@@ -2,7 +2,7 @@ import { createDefaultTestingModule, mockDbModule } from "./setup";
 import * as request from "supertest";
 import { BoardGateway } from "src/Gateways/Board/gateway";
 import { Board } from "src/Gateways/Board/entity";
-import { BoardColumn } from "src/Gateways/BoardColumn/entitiy";
+import { BoardColumn } from "src/Gateways/BoardColumn/entity";
 import { v4 as uuidv4 } from "uuid";
 import { BoardColumnGateway } from "src/Gateways/BoardColumn/gateway";
 

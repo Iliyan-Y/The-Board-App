@@ -1,6 +1,6 @@
 import { AutoMap } from "@automapper/classes";
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
-import { BoardColumn } from "../BoardColumn/entitiy";
+import { BoardColumn } from "../BoardColumn/entity";
 
 @Entity()
 export class Board {

@@ -6,7 +6,7 @@ import { Mapper } from "@automapper/core";
 import { Board } from "src/Gateways/Board/entity";
 import { AutoMap } from "@automapper/classes";
 import { BoardColumnGateway } from "src/Gateways/BoardColumn/gateway";
-import { BoardColumn } from "src/Gateways/BoardColumn/entitiy";
+import { BoardColumn } from "src/Gateways/BoardColumn/entity";
 
 export class CreateCommand {
   @AutoMap()

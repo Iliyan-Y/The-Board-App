@@ -1,4 +1,5 @@
 import { AutoMap } from "@automapper/classes";
+import { TaskModel } from "../Task/mode";
 
 export class BoardColumnModel {
   @AutoMap()
@@ -6,4 +7,7 @@ export class BoardColumnModel {
 
   @AutoMap()
   name: string;
+
+  @AutoMap(() => [TaskModel])
+  tasks: TaskModel[];
 }

@@ -6,7 +6,7 @@ import { BoardRepository } from "src/Gateways.DB/Board/repository";
 import { Board } from "src/Gateways/Board/entity";
 import { BoardGateway } from "src/Gateways/Board/gateway";
 import { BoardProfile } from "./mapper.profile";
-import { BoardColumn } from "src/Gateways/BoardColumn/entitiy";
+import { BoardColumn } from "src/Gateways/BoardColumn/entity";
 import { BoardColumnGateway } from "src/Gateways/BoardColumn/gateway";
 import { BoardColumnRepository } from "src/Gateways.DB/BoardColumn/repository";
 import { GetBoardService } from "src/Domain/Board/services/get";

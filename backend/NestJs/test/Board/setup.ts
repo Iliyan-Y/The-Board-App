@@ -6,7 +6,7 @@ import { BoardRepository } from "src/Gateways.DB/Board/repository";
 import { BoardColumnRepository } from "src/Gateways.DB/BoardColumn/repository";
 import { Board } from "src/Gateways/Board/entity";
 import { BoardGateway } from "src/Gateways/Board/gateway";
-import { BoardColumn } from "src/Gateways/BoardColumn/entitiy";
+import { BoardColumn } from "src/Gateways/BoardColumn/entity";
 import { BoardColumnGateway } from "src/Gateways/BoardColumn/gateway";
 import { BoardProfile } from "src/Modules/Board/mapper.profile";
 import { createTestApi } from "test/helpers/api";
