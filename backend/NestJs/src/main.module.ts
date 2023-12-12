@@ -4,9 +4,9 @@ import { classes } from "@automapper/classes";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule } from "@nestjs/config";
 import { BoardModule } from "./Modules/Board/board.module";
-import { TaskModel } from "./Domain/Task/mode";
+import { TaskModule } from "./Modules/Task/task.module";
 
-const appModules = [BoardModule, TaskModel];
+const appModules = [BoardModule, TaskModule];
 
 @Module({
   imports: [

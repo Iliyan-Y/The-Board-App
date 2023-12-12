@@ -15,7 +15,7 @@ import { Task } from "src/Gateways/Task/entity";
 @Module({
   // TODO: find a way to split the entity or create one module for the db
   // or combine the modules into one for the solution ?
-  imports: [TypeOrmModule.forFeature([Board, BoardColumn, Task])],
+  imports: [TypeOrmModule.forFeature([Board, BoardColumn])],
   controllers: [BoardController],
   providers: [
     CreateService,
