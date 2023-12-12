@@ -1,6 +1,13 @@
 import { AutoMap } from "@automapper/classes";
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  OneToMany,
+} from "typeorm";
 import { Board } from "../Board/entity";
+import { Task } from "../Task/entitiy";
 
 @Entity()
 export class BoardColumn {
@@ -17,4 +24,8 @@ export class BoardColumn {
   @AutoMap()
   @ManyToOne(() => Board, (board) => board.columns)
   board: Board;
+
+  @AutoMap(() => [Task])
+  @OneToMany(() => Task, (task) => task.column)
+  tasks: Task[];
 }
