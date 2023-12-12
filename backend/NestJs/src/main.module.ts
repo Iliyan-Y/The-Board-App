@@ -1,11 +1,15 @@
-import { Module } from '@nestjs/common';
-import { AutomapperModule } from '@automapper/nestjs';
-import { classes } from '@automapper/classes';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule } from '@nestjs/config';
-import { BoardModule } from './Modules/Board/board.module';
+import { Module } from "@nestjs/common";
+import { AutomapperModule } from "@automapper/nestjs";
+import { classes } from "@automapper/classes";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { ConfigModule } from "@nestjs/config";
+import { BoardModule } from "./Modules/Board/board.module";
+import { TaskModel } from "./Domain/Task/mode";
+import { Board } from "./Gateways/Board/entity";
+import { BoardColumn } from "./Gateways/BoardColumn/entity";
+import { Task } from "./Gateways/Task/entity";
 
-const appModules = [BoardModule];
+const appModules = [BoardModule, TaskModel];
 
 @Module({
   imports: [
@@ -14,8 +18,8 @@ const appModules = [BoardModule];
       strategyInitializer: classes(),
     }),
     TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
+      type: "postgres",
+      host: "localhost",
       port: 5432,
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
