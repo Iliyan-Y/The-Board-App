@@ -4,7 +4,7 @@ import axios from "axios";
 import { SetStateAction, useEffect, useState } from "react";
 import BoardTask from "../task";
 
-const BoardPage = () => {
+const BoardTable = () => {
 	// TODO: refactor naming
 	const [selectedIndex, setSelectedIndex] = useState(-1);
 	const [masterParent, setMasterParent] = useState(-1);
@@ -102,4 +102,4 @@ const BoardPage = () => {
 	);
 };
 
-export default BoardPage;
+export default BoardTable;

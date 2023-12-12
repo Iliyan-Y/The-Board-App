@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage from "./components/home";
-import BoardPage from "./components/board";
+import BoardTable from "./components/board";
 
 const routes = [
 	{
@@ -9,7 +9,7 @@ const routes = [
 	},
 	{
 		path: "/:id",
-		element: <BoardPage />,
+		element: <BoardTable />,
 	},
 ];
 

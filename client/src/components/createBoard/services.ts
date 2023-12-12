@@ -22,7 +22,7 @@ export class CreateBoardService {
 			}
 			return null;
 		} catch (error) {
-			throw error;
+			console.log(error);
 		}
 	}
 }
