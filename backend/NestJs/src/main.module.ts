@@ -5,9 +5,6 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule } from "@nestjs/config";
 import { BoardModule } from "./Modules/Board/board.module";
 import { TaskModel } from "./Domain/Task/mode";
-import { Board } from "./Gateways/Board/entity";
-import { BoardColumn } from "./Gateways/BoardColumn/entity";
-import { Task } from "./Gateways/Task/entity";
 
 const appModules = [BoardModule, TaskModel];
 
