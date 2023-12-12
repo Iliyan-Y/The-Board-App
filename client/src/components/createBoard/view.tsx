@@ -1,6 +1,6 @@
 import { redirect } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { ReduxHooks, useAppDispatch, useAppSelector } from "../../state/hooks";
+import { ReduxHooks } from "../../state/hooks";
 import { selectBoardState, setBoardState } from "../../state/slices/board";
 import { CreateBoardService } from "./services";
 
@@ -9,10 +9,8 @@ interface CreateBoardViewProps {
 }
 
 const CreateBoardView = ({ service }: CreateBoardViewProps) => {
-	const d = ReduxHooks.dispatch();
-	const dispatch = d();
-	// const dispatch2 = useAppDispatch;
-	const boardState = ReduxHooks.appSelector()(selectBoardState);
+	const dispatch = ReduxHooks.useAppDispatch();
+	const boardState = ReduxHooks.useAppSelector(selectBoardState);
 	const [boardName, setBoardName] = useState("");
 
 	const handleCreate = async () => {

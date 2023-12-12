@@ -1,6 +1,5 @@
-import React from "react";
 import HomePage from "./index";
-import { Provider, useDispatch } from "react-redux";
+import { Provider } from "react-redux";
 import { store } from "../../state/store";
 import "../../index.css";
 import { CreateBoardService } from "../createBoard/services";
@@ -49,7 +48,7 @@ describe("<HomePage />", () => {
 			some: "data",
 		});
 
-		const dispatch = cy.stub(ReduxHooks, "dispatch").returns(() => {
+		const dispatch = cy.stub(ReduxHooks, "useAppDispatch").returns(() => {
 			return () => {};
 		});
 
