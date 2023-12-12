@@ -10,6 +10,7 @@ import {
 import { CreateRequest } from "./Models/CreateRequest";
 import {
   CreateCommand,
+  CreateResultStatus,
   CreateTaskService,
 } from "src/Domain/Task/services/create";
 
@@ -26,6 +27,19 @@ export class TaskController {
     @Body(MapPipe(CreateRequest, CreateCommand)) command: CreateCommand,
   ) {
     const result = await this.createService.create(command);
-    return result;
+
+    switch (result.status) {
+      case CreateResultStatus.Created:
+        return result.model;
+      case CreateResultStatus.FailedToCreate:
+        throw new HttpException(
+          `Task with name ${command.name} failed to create`,
+          HttpStatus.BAD_REQUEST,
+        );
+      default:
+        throw Error(
+          `An unexpected issue occurred when creating Board. Result Status was: ${result.status}`,
+        );
+    }
   }
 }
