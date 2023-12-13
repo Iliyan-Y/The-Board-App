@@ -1,17 +1,25 @@
 import { Dispatch, SetStateAction, useState } from "react";
+import { CreateTaskService } from "./services/create";
+import { CreateRequest } from "./models/create";
+
+interface CreateTaskPros {
+	service: CreateTaskService;
+	showModal: boolean;
+	setShowModal: Dispatch<SetStateAction<boolean>>;
+}
 
 const CreateTaskModal = ({
 	showModal,
 	setShowModal,
-}: {
-	showModal: boolean;
-	setShowModal: Dispatch<SetStateAction<boolean>>;
-}) => {
+	service,
+}: CreateTaskPros) => {
 	const [taskName, setTaskName] = useState("");
 	const [description, setDescription] = useState("");
 
-	const handleSave = () => {
-		console.log(taskName, description);
+	const handleSave = async () => {
+		const data = new CreateRequest(taskName, description);
+		const task = await service.createTask(data);
+		if (task) console.log("Dispatch to store");
 	};
 
 	const handleClose = () => {
