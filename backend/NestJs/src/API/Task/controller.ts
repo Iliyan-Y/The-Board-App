@@ -13,6 +13,8 @@ import {
   CreateResultStatus,
   CreateTaskService,
 } from "src/Domain/Task/services/create";
+import { TaskModel } from "src/Domain/Task/mode";
+import { CreateResponse } from "./Models/CreateResponse";
 
 @Controller("task")
 export class TaskController {
@@ -30,7 +32,7 @@ export class TaskController {
 
     switch (result.status) {
       case CreateResultStatus.Created:
-        return result.model;
+        return this.mapper.map(result.model, TaskModel, CreateResponse);
       case CreateResultStatus.FailedToCreate:
         throw new HttpException(
           `Task with name ${command.name} failed to create`,

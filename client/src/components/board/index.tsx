@@ -7,6 +7,7 @@ import { api } from "../../helpers/api";
 import { useNavigate, useParams } from "react-router-dom";
 import { selectBoardState, setBoardState } from "../../state/slices/board";
 import { ReduxHooks } from "../../state/hooks";
+import { selectTaskState } from "../../state/slices/task";
 
 const columnStyle = "border w-3/12 text-center mx-1";
 
@@ -16,6 +17,7 @@ const BoardTable = () => {
 	const { id } = useParams();
 	const board = ReduxHooks.useAppSelector(selectBoardState);
 	const columns = board ? board.columns : [];
+	const tasks = ReduxHooks.useAppSelector(selectTaskState);
 
 	// TODO: refactor naming
 	const [selectedIndex, setSelectedIndex] = useState(-1);
@@ -28,7 +30,7 @@ const BoardTable = () => {
 	// 	if (selectedIndex === masterParent) return;
 	// 	console.log(masterParent, masterChild);
 
-	// 	setColumns((state) => {
+	// 	setTasks((state) => {
 	// 		const updatedLinks = state.map((item, index) => {
 	// 			if (index === selectedIndex) {
 	// 				// add to the tasks
@@ -95,6 +97,7 @@ const BoardTable = () => {
 							{column ? column.name : ""}
 						</div>
 						<BoardTask
+							tasks={tasks.filter((t) => t.columnId === column.id)}
 							setMasterChild={setMasterChild}
 							setMasterParent={setMasterParent}
 							parentIndex={parentIndex}

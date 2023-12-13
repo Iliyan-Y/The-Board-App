@@ -1,24 +1,19 @@
 import { Dispatch, SetStateAction } from "react";
+import { IBoardTask } from "../../state/slices/task";
 
 interface IBoardTaskProps {
+	tasks: IBoardTask[];
 	setMasterChild: Dispatch<SetStateAction<number>>;
 	setMasterParent: Dispatch<SetStateAction<number>>;
 	parentIndex: number;
 }
 
-interface IBoardTask {
-	id: string;
-	name: string;
-	description: string;
-	columnId: string;
-}
-
 const BoardTask = ({
+	tasks,
 	setMasterChild,
 	setMasterParent,
 	parentIndex,
 }: IBoardTaskProps) => {
-	const tasks: IBoardTask[] = [];
 	return (
 		<>
 			{tasks.map((task, itemIndex) => (

@@ -1,5 +1,6 @@
 import { Action, ThunkAction, configureStore } from "@reduxjs/toolkit";
 import boardSlice from "./slices/board";
+import taskSlice from "./slices/task";
 
 // export const makeStore = () => {
 // 	return configureStore({
@@ -10,6 +11,7 @@ import boardSlice from "./slices/board";
 export const store = configureStore({
 	reducer: {
 		boardSlice,
+		taskSlice,
 	},
 });
 
