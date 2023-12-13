@@ -21,7 +21,7 @@ const CreateBoardView = ({ service }: CreateBoardViewProps) => {
 
 	useEffect(() => {
 		// TODO: refactor to allow multiple  board s
-		if (boardState.length >= 1) navigate("/" + boardState[0].id);
+		if (boardState) navigate("/" + boardState.id);
 	}, [boardState]);
 
 	return (
