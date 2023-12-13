@@ -6,7 +6,7 @@ const PlusButton: React.FC<GenericButtonProps> = ({ ...props }) => {
 	return (
 		<button {...props} className="btn btn-square btn-wide btn-outline mt-2">
 			<svg
-				enable-background="new 0 0 50 50"
+				enableBackground="new 0 0 50 50"
 				height="50px"
 				id="Layer_1"
 				version="1.1"
@@ -18,8 +18,8 @@ const PlusButton: React.FC<GenericButtonProps> = ({ ...props }) => {
 				<line
 					fill="none"
 					stroke="#808080"
-					stroke-miterlimit="10"
-					stroke-width="4"
+					strokeMiterlimit="10"
+					strokeWidth="4"
 					x1="9"
 					x2="41"
 					y1="25"
@@ -28,8 +28,8 @@ const PlusButton: React.FC<GenericButtonProps> = ({ ...props }) => {
 				<line
 					fill="none"
 					stroke="#808080"
-					stroke-miterlimit="10"
-					stroke-width="4"
+					strokeMiterlimit="10"
+					strokeWidth="4"
 					x1="25"
 					x2="25"
 					y1="9"
