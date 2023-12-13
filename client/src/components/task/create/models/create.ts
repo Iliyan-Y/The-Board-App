@@ -1,5 +1,9 @@
 export class CreateRequest {
-	constructor(public name: string, public description?: string) {
+	constructor(
+		public name: string,
+		public columnId: string,
+		public description?: string
+	) {
 		// (this.model = model), (this.status = status);
 	}
 }

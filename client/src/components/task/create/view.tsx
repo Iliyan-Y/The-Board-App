@@ -5,21 +5,26 @@ import { CreateRequest } from "./models/create";
 interface CreateTaskPros {
 	service: CreateTaskService;
 	showModal: boolean;
+	columnId: string;
 	setShowModal: Dispatch<SetStateAction<boolean>>;
 }
 
 const CreateTaskModal = ({
 	showModal,
 	setShowModal,
+	columnId,
 	service,
 }: CreateTaskPros) => {
 	const [taskName, setTaskName] = useState("");
 	const [description, setDescription] = useState("");
 
 	const handleSave = async () => {
-		const data = new CreateRequest(taskName, description);
+		const data = new CreateRequest(taskName, columnId, description);
 		const task = await service.createTask(data);
-		if (task) console.log("Dispatch to store");
+		if (task) {
+			console.log("Dispatch to store", task);
+			return handleClose();
+		}
 	};
 
 	const handleClose = () => {

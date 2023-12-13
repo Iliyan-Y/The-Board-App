@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 import { Task } from "../../state/slices/board";
 
-interface IBoardTask {
+interface IBoardTaskProps {
 	tasks: Task[];
 	setMasterChild: Dispatch<SetStateAction<number>>;
 	setMasterParent: Dispatch<SetStateAction<number>>;
@@ -13,7 +13,7 @@ const BoardTask = ({
 	setMasterChild,
 	setMasterParent,
 	parentIndex,
-}: IBoardTask) => {
+}: IBoardTaskProps) => {
 	return (
 		<>
 			{tasks.map((task, itemIndex) => (

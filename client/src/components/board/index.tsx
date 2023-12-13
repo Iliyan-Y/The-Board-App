@@ -1,26 +1,35 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BoardTask from "../task";
 import CreateTask from "../task/create";
+import axios from "axios";
+import { api } from "../../helpers/api";
+import { useNavigate, useParams } from "react-router-dom";
+
+const columnStyle = "border w-3/12 text-center mx-1";
+
+interface BoardColumn {
+	id: string;
+	name: string;
+	tasks: IBoardTask[];
+}
+
+interface IBoardTask {
+	id: string;
+	name: string;
+	description: string;
+	columnId: string;
+}
 
 const BoardTable = () => {
+	const navigate = useNavigate();
+	const { id } = useParams();
 	// TODO: refactor naming
 	const [selectedIndex, setSelectedIndex] = useState(-1);
 	const [masterParent, setMasterParent] = useState(-1);
 	const [masterChild, setMasterChild] = useState(-1);
-	const [columns, setColumns] = useState([
-		{ name: "Apply", tasks: [{ id: "1", name: "some name" }] },
-		{ name: "Interview", tasks: [] },
-		{
-			name: "Rejected",
-			tasks: [
-				{ id: "12", name: "some name 2" },
-				{ id: "2", name: "some name 3" },
-			],
-		},
-	]);
+	const [columns, setColumns] = useState<BoardColumn[]>([]);
 
-	const columnStyle = "border w-3/12 text-center mx-1";
 	// TODO: refactor split in smaller chunks
 	const handleUpdateState = () => {
 		console.log(selectedIndex);
@@ -51,27 +60,38 @@ const BoardTable = () => {
 		//todo: reset dragging ?
 	};
 
-	//TODO: Optimize using state ?
+	//TODO: convert to custom hook
 	//------------------
-	// const getBoard = async () => {
-	// 	axios
-	// 		.get(`${api}/${id}`)
-	// 		.then((res) => {
-	// 			setColumns(res.data.columns);
-	// 		})
-	// 		.catch((e) => console.error(e));
-	// };
+	const getBoard = async () => {
+		await axios
+			.get(`${api}/${id}`)
+			.then((res) => {
+				console.log(res.data);
+				setColumns(
+					res.data.columns.map((col) => {
+						return { ...col, tasks: [] };
+					})
+				);
+			})
+			.catch((e) => {
+				console.error(e);
+				navigate("/");
+			});
+	};
 
-	// useEffect(() => {
-	// 	getBoard();
-	// }, []);
+	useEffect(() => {
+		getBoard();
+	}, []);
 
 	//------------------
+
+	if (columns.length < 1) return <div>Loading....</div>;
 
 	// TODO: extract functions and components
 	return (
 		<div className="h-screen m-2">
 			<h1>BOARD NAME HERE</h1>
+			{/* TODO: extract in separate component */}
 			<div id="table-board" className="flex justify-evenly border h-5/6">
 				{columns.map((column, parentIndex) => (
 					<div
@@ -92,7 +112,7 @@ const BoardTable = () => {
 							setMasterParent={setMasterParent}
 							parentIndex={parentIndex}
 						/>
-						<CreateTask />
+						<CreateTask columnId={column.id} />
 					</div>
 				))}
 				{/* TODO: add button for adding columns */}

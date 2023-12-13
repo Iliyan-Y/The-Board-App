@@ -1,4 +1,4 @@
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ReduxHooks } from "../../state/hooks";
 import { selectBoardState, setBoardState } from "../../state/slices/board";
@@ -9,6 +9,7 @@ interface CreateBoardViewProps {
 }
 
 const CreateBoardView = ({ service }: CreateBoardViewProps) => {
+	const navigate = useNavigate();
 	const dispatch = ReduxHooks.useAppDispatch();
 	const boardState = ReduxHooks.useAppSelector(selectBoardState);
 	const [boardName, setBoardName] = useState("");
@@ -20,7 +21,7 @@ const CreateBoardView = ({ service }: CreateBoardViewProps) => {
 
 	useEffect(() => {
 		// TODO: refactor to allow multiple  board s
-		if (boardState.length >= 1) redirect("/" + boardState[0].id);
+		if (boardState.length >= 1) navigate("/" + boardState[0].id);
 	}, [boardState]);
 
 	return (
