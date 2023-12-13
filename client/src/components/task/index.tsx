@@ -1,5 +1,5 @@
-import { Task } from "@/state/slices/board";
 import { Dispatch, SetStateAction } from "react";
+import { Task } from "../../state/slices/board";
 
 interface IBoardTask {
 	tasks: Task[];
@@ -21,7 +21,6 @@ const BoardTask = ({
 					draggable
 					key={task.id}
 					onDragStart={() => {
-						console.log("SETTING IT UP", parentIndex, itemIndex);
 						setMasterChild(itemIndex);
 						setMasterParent(parentIndex);
 					}}

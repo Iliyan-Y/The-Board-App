@@ -1,8 +1,7 @@
 "use client";
-import { api } from "@/helpers/api";
-import axios from "axios";
-import { SetStateAction, useEffect, useState } from "react";
+import { useState } from "react";
 import BoardTask from "../task";
+import CreateTask from "../task/create";
 
 const BoardTable = () => {
 	// TODO: refactor naming
@@ -93,6 +92,7 @@ const BoardTable = () => {
 							setMasterParent={setMasterParent}
 							parentIndex={parentIndex}
 						/>
+						<CreateTask />
 					</div>
 				))}
 				{/* TODO: add button for adding columns */}
