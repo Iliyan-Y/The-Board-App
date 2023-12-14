@@ -2,6 +2,7 @@ import { TaskGateway } from "src/Gateways/Task/gateway";
 import { createDefaultTestingModule, mockDbModule } from "./setup";
 import * as request from "supertest";
 import { Task } from "src/Gateways/Task/entity";
+import { v4 as uuidv4 } from "uuid";
 
 describe("Task, Create", () => {
   const url = "/task";
@@ -132,6 +133,38 @@ describe("Task, Create", () => {
       name: "test",
       description: "test - description",
       columnId: "12-some-uuid",
+    });
+  });
+
+  it("will throw error if invalid uuid for columnId", async () => {
+    const app = await createDefaultTestingModule();
+    await app.init();
+
+    const result = await request(app.getHttpServer()).post(url).send({
+      name: "test",
+      description: "test - description",
+      columnId: "12-some-uuid",
+    });
+
+    expect(result.body).toMatchObject({
+      message: "Internal server error",
+      statusCode: 500,
+    });
+  });
+
+  it("will throw error if columnId not in the db", async () => {
+    const app = await createDefaultTestingModule();
+    await app.init();
+
+    const result = await request(app.getHttpServer()).post(url).send({
+      name: "test",
+      description: "test - description",
+      columnId: uuidv4(),
+    });
+
+    expect(result.body).toMatchObject({
+      message: "Internal server error",
+      statusCode: 500,
     });
   });
 });
