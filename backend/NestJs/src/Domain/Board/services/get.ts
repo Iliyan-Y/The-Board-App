@@ -5,7 +5,6 @@ import { InjectMapper } from "@automapper/nestjs";
 import { Mapper } from "@automapper/core";
 import { Board } from "src/Gateways/Board/entity";
 import { AutoMap } from "@automapper/classes";
-import { CreateService } from "./create";
 
 export class GetCommand {
   @AutoMap()

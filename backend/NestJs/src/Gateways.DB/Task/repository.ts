@@ -11,4 +11,12 @@ export class TaskRepository implements TaskGateway {
     await this.repository.save(task);
     return task;
   }
+
+  async listColTask(columnId: string): Promise<Task[]> {
+    const tasks = await this.repository
+      .createQueryBuilder()
+      .where('"columnId" = :columnId', { columnId })
+      .getMany();
+    return tasks;
+  }
 }
