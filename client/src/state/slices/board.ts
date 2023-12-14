@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-export interface Task {
+export interface IBoardColumns {
 	id: string;
 	name: string;
 }
@@ -9,15 +9,16 @@ export interface Task {
 export interface Board {
 	id: string;
 	name: string;
+	columns: IBoardColumns[];
 }
 
 export interface BoardState {
-	boardState: Board[];
+	boardState: Board | null;
 }
 
 // Initial state
 const initialState: BoardState = {
-	boardState: [],
+	boardState: null,
 };
 
 // Actual Slice
@@ -25,8 +26,14 @@ export const boardSlice = createSlice({
 	name: "boards",
 	initialState,
 	reducers: {
-		setBoardState(state, action) {
-			state.boardState = [...state.boardState, action.payload];
+		setBoardState(
+			state,
+			action: {
+				payload: Board;
+				type: string;
+			}
+		) {
+			state.boardState = action.payload;
 		},
 	},
 });
