@@ -7,6 +7,7 @@ import { TaskModel } from "src/Domain/Task/mode";
 import { CreateResponse } from "src/API/Task/Models/CreateResponse";
 import { ListByColumnIdRequest } from "src/API/Task/Models/ListByColumnIdRequest";
 import { ListByColIdCommand } from "src/Domain/Task/services/list";
+import { ListByColumnIdResult } from "src/API/Task/Models/ListByColumnIdResult";
 
 @Injectable()
 export class TaskProfile extends AutomapperProfile {
@@ -44,6 +45,15 @@ export class TaskProfile extends AutomapperProfile {
         ),
       );
       createMap(mapper, ListByColumnIdRequest, ListByColIdCommand);
+      createMap(
+        mapper,
+        TaskModel,
+        ListByColumnIdResult,
+        forMember(
+          (destination) => destination.columnId,
+          mapFrom((source) => source.column.id),
+        ),
+      );
     };
   }
 }

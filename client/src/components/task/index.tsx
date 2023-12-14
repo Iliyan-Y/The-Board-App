@@ -26,7 +26,7 @@ const BoardTask = ({
 					}}
 					className="cursor-move"
 				>
-					This will be job
+					{task.name}
 				</div>
 			))}
 		</>

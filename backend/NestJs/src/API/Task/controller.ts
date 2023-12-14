@@ -23,6 +23,7 @@ import {
   ListResultStatus,
   ListService,
 } from "src/Domain/Task/services/list";
+import { ListByColumnIdResult } from "./Models/ListByColumnIdResult";
 
 @Controller("task")
 export class TaskController {
@@ -59,11 +60,14 @@ export class TaskController {
     @Param(MapPipe(ListByColumnIdRequest, ListByColIdCommand))
     command: ListByColIdCommand,
   ) {
+    console.log("Fetching data for ", command.columnId);
     const result = await this.listService.listColTask(command);
 
     switch (result.status) {
       case ListResultStatus.Found:
-        return result.model;
+        return result.model.map((task) =>
+          this.mapper.map(task, TaskModel, ListByColumnIdResult),
+        );
       case ListResultStatus.NotFound:
         return [];
       default:
