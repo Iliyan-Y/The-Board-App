@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { ReduxHooks } from "../../../state/hooks";
-import { selectBoardState, setBoardState } from "../../../state/slices/board";
+import { setBoardState } from "../../../state/slices/board";
 import { CreateBoardService } from "./services";
 
 interface CreateBoardViewProps {
@@ -11,16 +11,15 @@ interface CreateBoardViewProps {
 const CreateBoardView = ({ service }: CreateBoardViewProps) => {
 	const navigate = useNavigate();
 	const dispatch = ReduxHooks.useAppDispatch();
-	const boardState = ReduxHooks.useAppSelector(selectBoardState);
 	const [boardName, setBoardName] = useState("");
 
 	const handleCreate = async () => {
 		const res = await service.createBoard(boardName);
-		if (res) dispatch(setBoardState(res));
+		if (res) {
+			dispatch(setBoardState(res));
+			return navigate("/" + res.id);
+		}
 	};
-
-	// TODO: refactor to allow multiple  board s
-	if (boardState) return navigate("/" + boardState.id);
 
 	return (
 		<div className="m-auto">

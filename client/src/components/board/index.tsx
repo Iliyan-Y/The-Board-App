@@ -8,7 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
 	Board,
 	IBoardColumns,
-	selectBoardState,
+	selectBoard,
 	setBoardState,
 } from "../../state/slices/board";
 import { ReduxHooks } from "../../state/hooks";
@@ -20,7 +20,7 @@ const BoardTable = () => {
 	const navigate = useNavigate();
 	const dispatch = ReduxHooks.useAppDispatch();
 	const { id } = useParams();
-	const board = ReduxHooks.useAppSelector(selectBoardState);
+	const board = ReduxHooks.useAppSelector(selectBoard);
 	const columns = board?.columns;
 	const tasks = ReduxHooks.useAppSelector(selectTaskState);
 
