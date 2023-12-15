@@ -1,113 +1,74 @@
 "use client";
-import { useEffect, useState } from "react";
-import BoardTask from "../task";
-import CreateTask from "../task/create";
+import { useEffect } from "react";
 import axios from "axios";
 import { api } from "../../helpers/api";
 import { useNavigate, useParams } from "react-router-dom";
-import { selectBoardState, setBoardState } from "../../state/slices/board";
+import {
+	Board,
+	IBoardColumns,
+	selectBoard,
+	setBoardState,
+} from "../../state/slices/board";
 import { ReduxHooks } from "../../state/hooks";
-import { selectTaskState } from "../../state/slices/task";
-
-const columnStyle = "border w-3/12 text-center mx-1";
+import { setTaskState } from "../../state/slices/task";
+import TableView from "./tableView";
 
 const BoardTable = () => {
+	const { id } = useParams();
 	const navigate = useNavigate();
 	const dispatch = ReduxHooks.useAppDispatch();
-	const { id } = useParams();
-	const board = ReduxHooks.useAppSelector(selectBoardState);
-	const columns = board ? board.columns : [];
-	const tasks = ReduxHooks.useAppSelector(selectTaskState);
-
-	// TODO: refactor naming
-	const [selectedIndex, setSelectedIndex] = useState(-1);
-	const [masterParent, setMasterParent] = useState(-1);
-	const [masterChild, setMasterChild] = useState(-1);
-
-	// TODO: refactor split in smaller chunks
-	// const handleUpdateState = () => {
-	// 	console.log(selectedIndex);
-	// 	if (selectedIndex === masterParent) return;
-	// 	console.log(masterParent, masterChild);
-
-	// 	setTasks((state) => {
-	// 		const updatedLinks = state.map((item, index) => {
-	// 			if (index === selectedIndex) {
-	// 				// add to the tasks
-	// 				const task = state[masterParent].tasks[masterChild];
-	// 				const newTaskArray = [...item.tasks, task];
-	// 				return { ...item, tasks: newTaskArray };
-	// 			}
-
-	// 			if (index === masterParent) {
-	// 				// remove task at position index
-	// 				const newTaskArray = [...item.tasks];
-	// 				newTaskArray.splice(masterChild, 1);
-	// 				return { ...item, tasks: newTaskArray };
-	// 			}
-	// 			return item;
-	// 		});
-	// 		return updatedLinks;
-	// 	});
-
-	// 	setSelectedIndex(-1);
-	// 	//todo: reset dragging ?
-	// };
+	const board = ReduxHooks.useAppSelector(selectBoard);
 
 	//TODO: convert to custom hook
 	//------------------
 	const getBoard = async () => {
-		await axios
-			.get(`${api}/${id}`)
-			.then((res) => {
-				if (res.data) dispatch(setBoardState(res.data));
-			})
-			.catch((e) => {
-				console.error(e);
-				navigate("/");
-			});
+		if (board) return;
+		try {
+			const res = await axios.get(`${api}/${id}`);
+			if (res.data) {
+				const boardRes = res.data as Board;
+
+				const tasks = await getAllTasks(boardRes.columns);
+
+				dispatch(setBoardState(boardRes));
+				dispatch(setTaskState(tasks));
+			}
+		} catch (error) {
+			console.error(error);
+			navigate("/");
+		}
+	};
+
+	const getTasks = async (columnId: string) => {
+		const res = await axios.get(`${api}/task/${columnId}`);
+		return res.data;
+	};
+
+	const getAllTasks = async (cols: IBoardColumns[]) => {
+		let t: IBoardColumns[] = [];
+		for (const col of cols) {
+			const data = await getTasks(col.id);
+			t = [...t, ...data];
+		}
+		return t;
 	};
 
 	useEffect(() => {
+		const source = axios.CancelToken.source();
 		getBoard();
+		return () => {
+			source.cancel();
+		};
 	}, []);
 
 	//------------------
 
-	if (columns.length < 1) return <div>Loading....</div>;
+	if (!board?.columns) return <div>Loading....</div>;
 
-	// TODO: extract functions and components
 	return (
 		<div className="h-screen m-2">
 			<h1>BOARD NAME HERE</h1>
-			{/* TODO: extract in separate component */}
-			<div id="table-board" className="flex justify-evenly border h-5/6">
-				{columns.map((column, parentIndex) => (
-					<div
-						style={{
-							background: selectedIndex === parentIndex ? "hotpink" : "inherit",
-						}}
-						key={column && column.name}
-						className={columnStyle}
-						onDragOver={() => setSelectedIndex(parentIndex)}
-						// TODO:
-						// onDragEnd={handleUpdateState}
-					>
-						<div className="border-b min-w-full py-5">
-							{column ? column.name : ""}
-						</div>
-						<BoardTask
-							tasks={tasks.filter((t) => t.columnId === column.id)}
-							setMasterChild={setMasterChild}
-							setMasterParent={setMasterParent}
-							parentIndex={parentIndex}
-						/>
-						<CreateTask columnId={column.id} />
-					</div>
-				))}
-				{/* TODO: add button for adding columns */}
-				{/* <div className={columnStyle}>+</div> */}
-			</div>
+			<TableView board={board} />
 		</div>
 	);
 };

@@ -3,12 +3,11 @@ import { createMap, forMember, mapFrom, type Mapper } from "@automapper/core";
 import { Injectable } from "@nestjs/common";
 import { CreateCommand } from "src/Domain/Task/services/create";
 import { Task } from "src/Gateways/Task/entity";
-import { CreateRequest } from "src/API/Task/Models/CreateRequest";
 import { TaskModel } from "src/Domain/Task/mode";
-import { Board } from "src/Gateways/Board/entity";
-import { BoardColumn } from "src/Gateways/BoardColumn/entity";
-import { BoardColumnModel } from "src/Domain/BoardColumn/model";
 import { CreateResponse } from "src/API/Task/Models/CreateResponse";
+import { ListByColumnIdRequest } from "src/API/Task/Models/ListByColumnIdRequest";
+import { ListByColIdCommand } from "src/Domain/Task/services/list";
+import { ListByColumnIdResult } from "src/API/Task/Models/ListByColumnIdResult";
 
 @Injectable()
 export class TaskProfile extends AutomapperProfile {
@@ -40,6 +39,16 @@ export class TaskProfile extends AutomapperProfile {
         mapper,
         TaskModel,
         CreateResponse,
+        forMember(
+          (destination) => destination.columnId,
+          mapFrom((source) => source.column.id),
+        ),
+      );
+      createMap(mapper, ListByColumnIdRequest, ListByColIdCommand);
+      createMap(
+        mapper,
+        TaskModel,
+        ListByColumnIdResult,
         forMember(
           (destination) => destination.columnId,
           mapFrom((source) => source.column.id),

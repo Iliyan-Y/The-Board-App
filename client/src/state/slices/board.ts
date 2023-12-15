@@ -13,17 +13,17 @@ export interface Board {
 }
 
 export interface BoardState {
-	boardState: Board | null;
+	board: Board | null;
 }
 
 // Initial state
 const initialState: BoardState = {
-	boardState: null,
+	board: null,
 };
 
 // Actual Slice
 export const boardSlice = createSlice({
-	name: "boards",
+	name: "board",
 	initialState,
 	reducers: {
 		setBoardState(
@@ -33,14 +33,13 @@ export const boardSlice = createSlice({
 				type: string;
 			}
 		) {
-			state.boardState = action.payload;
+			state.board = action.payload;
 		},
 	},
 });
 
 export const { setBoardState } = boardSlice.actions;
 
-export const selectBoardState = (state: RootState) =>
-	state.boardSlice.boardState;
+export const selectBoard = (state: RootState) => state.boardSlice.board;
 
 export default boardSlice.reducer;
