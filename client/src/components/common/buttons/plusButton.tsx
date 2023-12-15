@@ -4,7 +4,7 @@ type GenericButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
 
 const PlusButton: React.FC<GenericButtonProps> = ({ ...props }) => {
 	return (
-		<button {...props} className="btn btn-square btn-wide btn-outline mt-2">
+		<button {...props} className="btn btn-square   ">
 			<svg
 				enableBackground="new 0 0 50 50"
 				height="50px"

@@ -14,7 +14,7 @@ import {
 import { ReduxHooks } from "../../state/hooks";
 import { selectTaskState, setTaskState } from "../../state/slices/task";
 
-const columnStyle = "border w-3/12 text-center mx-1";
+const columnStyle = "border w-3/12 text-center mx-1, overflow-y-auto";
 
 const BoardTable = () => {
 	const navigate = useNavigate();
@@ -124,8 +124,12 @@ const BoardTable = () => {
 							// TODO:
 							// onDragEnd={handleUpdateState}
 						>
-							<div className="border-b min-w-full py-5">
-								{column ? column.name : ""}
+							<div className="border-b min-w-full flex justify-between">
+								<CreateTask columnId={column.id} />
+								<h3 className="flex self-center">
+									{column ? column.name : ""}
+								</h3>
+								<button className="btn btn-square">...</button>
 							</div>
 							<BoardTask
 								tasks={tasks.filter((t) => t.columnId === column.id)}
@@ -133,7 +137,6 @@ const BoardTable = () => {
 								setMasterParent={setMasterParent}
 								parentIndex={parentIndex}
 							/>
-							<CreateTask columnId={column.id} />
 						</div>
 					))}
 				{/* TODO: add button for adding columns */}
