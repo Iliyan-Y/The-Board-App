@@ -94,7 +94,11 @@ const BoardTable = () => {
 	};
 
 	useEffect(() => {
+		const cancelToken = axios.CancelToken.source();
 		getBoard();
+		return () => {
+			cancelToken.cancel();
+		};
 	}, []);
 
 	//------------------

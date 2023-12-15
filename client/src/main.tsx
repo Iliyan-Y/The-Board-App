@@ -7,8 +7,6 @@ import { store } from "./state/store";
 import AppWrapper from "./components/common/appWrapper";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-	// TODO: DISABLE STRICT MODE IN PRODUCTION
-	// it cause useEffect render twice
 	<StrictMode>
 		<Provider store={store}>
 			<AppWrapper>
