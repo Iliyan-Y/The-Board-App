@@ -2,7 +2,7 @@ import HomePage from "./index";
 import { Provider } from "react-redux";
 import { store } from "../../state/store";
 import "../../index.css";
-import { CreateBoardService } from "../createBoard/services";
+import { CreateBoardService } from "../board/createBoard/services";
 import { ReduxHooks } from "../../state/hooks";
 
 const render = () =>

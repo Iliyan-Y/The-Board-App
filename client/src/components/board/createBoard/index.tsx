@@ -1,4 +1,4 @@
-import { api } from "../../helpers/api";
+import { api } from "../../../helpers/api";
 import { CreateBoardService } from "./services";
 import CreateBoardView from "./view";
 

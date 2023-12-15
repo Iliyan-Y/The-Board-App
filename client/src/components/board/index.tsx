@@ -103,7 +103,7 @@ const BoardTable = () => {
 
 	//------------------
 
-	// if (!columns || columns.length < 1) return <div>Loading....</div>;
+	if (!columns || columns.length < 1) return <div>Loading....</div>;
 
 	// TODO: extract functions and components
 	return (

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { ReduxHooks } from "../../state/hooks";
-import { selectBoardState, setBoardState } from "../../state/slices/board";
+import { ReduxHooks } from "../../../state/hooks";
+import { selectBoardState, setBoardState } from "../../../state/slices/board";
 import { CreateBoardService } from "./services";
 
 interface CreateBoardViewProps {
