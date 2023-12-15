@@ -10,10 +10,12 @@ export interface IBoardTask {
 
 export interface TaskState {
 	tasks: IBoardTask[];
+	selected: IBoardTask | null;
 }
 
 const initialState: TaskState = {
 	tasks: [],
+	selected: null,
 };
 
 export const taskSlice = createSlice({
@@ -23,14 +25,29 @@ export const taskSlice = createSlice({
 		setTaskState(state, action) {
 			state.tasks = action.payload;
 		},
-		setAddTask(state, action) {
+		addTask(state, action) {
 			state.tasks = [...state.tasks, action.payload];
+		},
+		selectTask(state, action) {
+			state.selected = action.payload;
+		},
+		moveTask(state, action) {
+			const taskIndex = state.tasks.findIndex(
+				(x) => x.id === state.selected?.id
+			);
+			const task = state.tasks[taskIndex];
+			state.tasks.splice(taskIndex, 1);
+			task.columnId = action.payload;
+			state.tasks.push(task);
 		},
 	},
 });
 
-export const { setTaskState, setAddTask } = taskSlice.actions;
+export const { setTaskState, addTask, selectTask, moveTask } =
+	taskSlice.actions;
 
 export const selectTaskState = (state: RootState) => state.taskSlice.tasks;
+
+export const selectedTask = (state: RootState) => state.taskSlice.selected;
 
 export default taskSlice.reducer;
