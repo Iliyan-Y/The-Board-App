@@ -7,6 +7,7 @@ import { TaskProfile } from "./mapper.profile";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Task } from "src/Gateways/Task/entity";
 import { ListService } from "src/Domain/Task/services/list";
+import { UpdateTaskService } from "src/Domain/Task/services/update";
 
 @Module({
   imports: [TypeOrmModule.forFeature([Task])],
@@ -14,6 +15,7 @@ import { ListService } from "src/Domain/Task/services/list";
   providers: [
     TaskProfile,
     ListService,
+    UpdateTaskService,
     CreateTaskService,
     { provide: TaskGateway, useClass: TaskRepository },
   ],
