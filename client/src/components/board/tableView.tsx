@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ReduxHooks } from "../../state/hooks";
 import { Board } from "../../state/slices/board";
-import { moveTask, selectedTask } from "../../state/slices/task";
+import { moveTask, selectedTask, updateTask } from "../../state/slices/task";
 import BoardTask from "../task";
 import TableHead from "./tableHeadView";
 import axios from "axios";
@@ -27,16 +27,10 @@ const TableView = ({ board }: TableViewProps) => {
 	};
 
 	const handleOnDrop = () => {
-		//TODO: record the change in the DB
-		updateTaskInDb();
-		dispatch(moveTask(selectedColumn));
+		// updateTaskInDb();
+		// dispatch(moveTask(selectedColumn));
+		dispatch(updateTask({ ...task!, columnId: selectedColumn }));
 		setSelectedColumn("");
-	};
-
-	const updateTaskInDb = async () => {
-		await axios
-			.put(`${api}/task`, { ...task, columnId: selectedColumn })
-			.catch((e) => console.log(e));
 	};
 
 	return (

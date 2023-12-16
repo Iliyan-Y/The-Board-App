@@ -92,13 +92,9 @@ export class TaskController {
   ) {
     console.log("Updating task for ", command.id);
     const result = await this.updateService.update(command);
-    console.log(result);
     switch (result.status) {
       case UpdateResultStatus.Updated:
-        return result.model;
-      // return result.model.map((task) =>
-      //   this.mapper.map(task, TaskModel, ListByColumnIdResult),
-      // );
+        return this.mapper.map(result.model, TaskModel, CreateResponse);
       case UpdateResultStatus.FailedToUpdate:
         throw new HttpException(
           `Task with name ${command.name} failed to update`,

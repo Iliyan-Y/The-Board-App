@@ -1,5 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
+import axios from "axios";
+import { api } from "../../helpers/api";
 
 export interface IBoardTask {
 	id: string;
@@ -41,6 +43,23 @@ export const taskSlice = createSlice({
 			state.tasks.push(task);
 		},
 	},
+	extraReducers(builder) {
+		builder
+			.addCase(updateTask.pending, (state, action) => {
+				console.log("Pending update...");
+			})
+			.addCase(updateTask.fulfilled, (state, action) => {
+				console.log(action.payload);
+				const taskIndex = state.tasks.findIndex(
+					(x) => x.id === state.selected?.id
+				);
+				state.tasks.splice(taskIndex, 1);
+				state.tasks.push(action.payload);
+			})
+			.addCase(updateTask.rejected, (state, action) => {
+				console.log("Error: ", action.error.message);
+			});
+	},
 });
 
 export const { setTaskState, addTask, selectTask, moveTask } =
@@ -51,3 +70,18 @@ export const selectTaskState = (state: RootState) => state.taskSlice.tasks;
 export const selectedTask = (state: RootState) => state.taskSlice.selected;
 
 export default taskSlice.reducer;
+
+// TODO convert to async dispatch
+// const updateTaskInDb = async (task: IBoardTask, selectedColumn: string) => {
+// 	await axios
+// 		.put(`${api}/task`, { ...task, columnId: selectedColumn })
+// 		.catch((e) => console.log(e));
+// };
+
+export const updateTask = createAsyncThunk(
+	"tasks/update",
+	async (task: IBoardTask) => {
+		const response = await axios.put(`${api}/task`, task);
+		return response.data;
+	}
+);
