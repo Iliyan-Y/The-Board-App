@@ -21,4 +21,9 @@ export class TaskRepository implements TaskGateway {
     });
     return tasks;
   }
+
+  async update(model: Task): Promise<Task> {
+    const task = await this.repository.save(model);
+    return task;
+  }
 }
