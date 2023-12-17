@@ -1,7 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import axios from "axios";
-import { api } from "../../helpers/api";
+import { apiRoot } from "../../helpers/api";
 import { useNavigate, useParams } from "react-router-dom";
 import {
 	Board,
@@ -24,7 +24,7 @@ const BoardTable = () => {
 	const getBoard = async () => {
 		if (board) return;
 		try {
-			const res = await axios.get(`${api}/${id}`);
+			const res = await axios.get(`${apiRoot}/${id}`);
 			if (res.data) {
 				const boardRes = res.data as Board;
 
@@ -40,7 +40,7 @@ const BoardTable = () => {
 	};
 
 	const getTasks = async (columnId: string) => {
-		const res = await axios.get(`${api}/task/${columnId}`);
+		const res = await axios.get(`${apiRoot}/task/${columnId}`);
 		return res.data;
 	};
 

@@ -13,9 +13,7 @@ const BoardTask = ({ columnId }: IBoardTaskProps) => {
 	const tasks = ReduxHooks.useAppSelector(selectTaskState).filter(
 		(task) => task.columnId === columnId
 	);
-
 	const dispatch = ReduxHooks.useAppDispatch();
-
 	const handleOnDragStart = (task: IBoardTask) => {
 		dispatch(selectTask(task));
 	};

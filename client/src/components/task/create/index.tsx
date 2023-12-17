@@ -1,12 +1,10 @@
 import { useState } from "react";
 import PlusButton from "../../common/buttons/plusButton";
 import CreateTaskModal from "./view";
-import { api } from "../../../helpers/api";
 import { CreateTaskService } from "./services/create";
 
 const CreateTask = ({ columnId }: { columnId: string }) => {
-	const endpoints = { CREATE: api + "/task" };
-	const service = new CreateTaskService(endpoints);
+	const service = new CreateTaskService();
 	const [showModal, setShowModal] = useState(false);
 
 	return (

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import axios from "axios";
-import { api } from "../../helpers/api";
+import { API } from "../../helpers/api";
 
 export interface IBoardTask {
 	id: string;
@@ -57,7 +57,7 @@ export default taskSlice.reducer;
 export const updateTask = createAsyncThunk(
 	"tasks/update",
 	async (task: IBoardTask) => {
-		const response = await axios.put(`${api}/task`, task);
+		const response = await axios.put(API.task.UPDATE, task);
 		return response.data;
 	}
 );
