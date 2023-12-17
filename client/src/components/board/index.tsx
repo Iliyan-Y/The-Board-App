@@ -10,7 +10,7 @@ import {
 	setBoardState,
 } from "../../state/slices/board";
 import { ReduxHooks } from "../../state/hooks";
-import { setTaskState } from "../../state/slices/task";
+import { setTaskState } from "../../state/slices/task/task";
 import TableView from "./tableView";
 
 const BoardTable = () => {

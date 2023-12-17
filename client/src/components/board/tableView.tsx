@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ReduxHooks } from "../../state/hooks";
 import { Board } from "../../state/slices/board";
-import { selectedTask, updateTask } from "../../state/slices/task";
+import { selectedTask, updateTask } from "../../state/slices/task/task";
 import BoardTask from "../task";
 import TableHead from "./tableHeadView";
 

@@ -1,9 +1,6 @@
 import { ReduxHooks } from "../../state/hooks";
-import {
-	IBoardTask,
-	selectTask,
-	selectTaskState,
-} from "../../state/slices/task";
+import { IBoardTask } from "../../state/slices/task/model";
+import { selectTask, selectTaskState } from "../../state/slices/task/task";
 
 interface IBoardTaskProps {
 	columnId: string;

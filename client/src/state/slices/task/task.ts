@@ -1,19 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../store";
+import { RootState } from "../../store";
 import axios from "axios";
-import { API } from "../../helpers/api";
-
-export interface IBoardTask {
-	id: string;
-	name: string;
-	description: string;
-	columnId: string;
-}
-
-export interface TaskState {
-	tasks: IBoardTask[];
-	selected: IBoardTask | null;
-}
+import { API } from "../../../helpers/api";
+import { CreateRequest, IBoardTask, TaskState } from "./model";
 
 const initialState: TaskState = {
 	tasks: [],
@@ -27,9 +16,6 @@ export const taskSlice = createSlice({
 		setTaskState(state, action) {
 			state.tasks = action.payload;
 		},
-		addTask(state, action) {
-			state.tasks = [...state.tasks, action.payload];
-		},
 		selectTask(state, action) {
 			state.selected = action.payload;
 		},
@@ -40,19 +26,34 @@ export const taskSlice = createSlice({
 				// payload is the return value from the AsyncThunk function updateTask
 				moveTaskToEnd(state.tasks, action.payload);
 			})
-			.addCase(updateTask.rejected, (state, action) => {
+			.addCase(updateTask.rejected, (_, action) => {
 				console.log("Error while updating task: ", action.error.message);
+			});
+		builder
+			.addCase(addTask.fulfilled, (state, action) => {
+				state.tasks = [...state.tasks, action.payload];
+			})
+			.addCase(addTask.rejected, (_, action) => {
+				console.log("Error while creating task: ", action.error.message);
 			});
 	},
 });
 
-export const { setTaskState, addTask, selectTask } = taskSlice.actions;
+export const { setTaskState, selectTask } = taskSlice.actions;
 
 export const selectTaskState = (state: RootState) => state.taskSlice.tasks;
 
 export const selectedTask = (state: RootState) => state.taskSlice.selected;
 
 export default taskSlice.reducer;
+
+export const addTask = createAsyncThunk(
+	"tasks/add",
+	async (task: CreateRequest) => {
+		const response = await axios.post(API.task.CREATE, task);
+		return response.data as IBoardTask;
+	}
+);
 
 export const updateTask = createAsyncThunk(
 	"tasks/update",
