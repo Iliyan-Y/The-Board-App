@@ -33,50 +33,26 @@ export const taskSlice = createSlice({
 		selectTask(state, action) {
 			state.selected = action.payload;
 		},
-		moveTask(state, action) {
-			const taskIndex = state.tasks.findIndex(
-				(x) => x.id === state.selected?.id
-			);
-			const task = state.tasks[taskIndex];
-			state.tasks.splice(taskIndex, 1);
-			task.columnId = action.payload;
-			state.tasks.push(task);
-		},
 	},
 	extraReducers(builder) {
 		builder
-			.addCase(updateTask.pending, (state, action) => {
-				console.log("Pending update...");
-			})
 			.addCase(updateTask.fulfilled, (state, action) => {
-				console.log(action.payload);
-				const taskIndex = state.tasks.findIndex(
-					(x) => x.id === state.selected?.id
-				);
-				state.tasks.splice(taskIndex, 1);
-				state.tasks.push(action.payload);
+				// payload is the return value from the AsyncThunk function updateTask
+				moveTaskToEnd(state.tasks, action.payload);
 			})
 			.addCase(updateTask.rejected, (state, action) => {
-				console.log("Error: ", action.error.message);
+				console.log("Error while updating task: ", action.error.message);
 			});
 	},
 });
 
-export const { setTaskState, addTask, selectTask, moveTask } =
-	taskSlice.actions;
+export const { setTaskState, addTask, selectTask } = taskSlice.actions;
 
 export const selectTaskState = (state: RootState) => state.taskSlice.tasks;
 
 export const selectedTask = (state: RootState) => state.taskSlice.selected;
 
 export default taskSlice.reducer;
-
-// TODO convert to async dispatch
-// const updateTaskInDb = async (task: IBoardTask, selectedColumn: string) => {
-// 	await axios
-// 		.put(`${api}/task`, { ...task, columnId: selectedColumn })
-// 		.catch((e) => console.log(e));
-// };
 
 export const updateTask = createAsyncThunk(
 	"tasks/update",
@@ -85,3 +61,9 @@ export const updateTask = createAsyncThunk(
 		return response.data;
 	}
 );
+
+function moveTaskToEnd(tasks: IBoardTask[], updatedTask: IBoardTask) {
+	const taskIndex = tasks.findIndex((x) => x.id === updatedTask.id);
+	tasks.splice(taskIndex, 1);
+	tasks.push(updatedTask);
+}
