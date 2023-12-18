@@ -58,7 +58,7 @@ export class TaskController {
         );
       default:
         throw Error(
-          `An unexpected issue occurred when creating Board. Result Status was: ${result.status}`,
+          `An unexpected issue occurred when creating task ${command.name}. Result Status was: ${result.status}`,
         );
     }
   }
@@ -80,7 +80,7 @@ export class TaskController {
         return [];
       default:
         throw Error(
-          `An unexpected issue occurred when creating Board. Result Status was: ${result.status}`,
+          `An unexpected issue occurred when getting task for column ${command.columnId}. Result Status was: ${result.status}`,
         );
     }
   }
@@ -102,7 +102,7 @@ export class TaskController {
         );
       default:
         throw Error(
-          `An unexpected issue occurred when creating Board. Result Status was: ${result.status}`,
+          `An unexpected issue occurred when updating Task with id ${command.id}. Result Status was: ${result.status}`,
         );
     }
   }

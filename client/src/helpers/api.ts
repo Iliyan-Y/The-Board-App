@@ -4,8 +4,11 @@ export const API = {
 	task: {
 		UPDATE: `${apiRoot}/task`,
 		CREATE: `${apiRoot}/task`,
+		GET_ALL_BY_COLUMN_ID: (columnId: string) => `${apiRoot}/task/${columnId}`,
 	},
 	board: {
-		CREATE: `${apiRoot}`,
+		LIST: apiRoot,
+		GET_BY_ID: (id: string) => `${apiRoot}/${id}`,
+		CREATE: apiRoot,
 	},
 };

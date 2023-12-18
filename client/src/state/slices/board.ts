@@ -29,7 +29,7 @@ export const boardSlice = createSlice({
 		setBoardState(
 			state,
 			action: {
-				payload: Board;
+				payload: Board | null;
 				type: string;
 			}
 		) {

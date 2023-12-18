@@ -3,6 +3,7 @@ import { RootState } from "../../store";
 import axios from "axios";
 import { API } from "../../../helpers/api";
 import { CreateRequest, IBoardTask, TaskState } from "./model";
+import { IBoardColumns } from "../board";
 
 const initialState: TaskState = {
 	tasks: [],
@@ -13,9 +14,6 @@ export const taskSlice = createSlice({
 	name: "boardTasks",
 	initialState,
 	reducers: {
-		setTaskState(state, action) {
-			state.tasks = action.payload;
-		},
 		selectTask(state, action) {
 			state.selected = action.payload;
 		},
@@ -36,16 +34,35 @@ export const taskSlice = createSlice({
 			.addCase(addTask.rejected, (_, action) => {
 				console.log("Error while creating task: ", action.error.message);
 			});
+		builder
+			.addCase(getTasks.fulfilled, (state, action) => {
+				state.tasks = action.payload;
+			})
+			.addCase(getTasks.rejected, (_, action) => {
+				console.log("Error while getting tasks: ", action.error.message);
+			});
 	},
 });
 
-export const { setTaskState, selectTask } = taskSlice.actions;
+export const { selectTask } = taskSlice.actions;
 
 export const selectTaskState = (state: RootState) => state.taskSlice.tasks;
 
 export const selectedTask = (state: RootState) => state.taskSlice.selected;
 
 export default taskSlice.reducer;
+
+export const getTasks = createAsyncThunk(
+	"tasks/getAll",
+	async (columns: IBoardColumns[]) => {
+		let tasks: IBoardTask[] = [];
+		for (const col of columns) {
+			const res = await axios.get(API.task.GET_ALL_BY_COLUMN_ID(col.id));
+			tasks = [...tasks, ...res.data];
+		}
+		return tasks;
+	}
+);
 
 export const addTask = createAsyncThunk(
 	"tasks/add",

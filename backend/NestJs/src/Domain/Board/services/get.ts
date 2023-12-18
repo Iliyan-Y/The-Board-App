@@ -29,8 +29,18 @@ class GetResult {
   }
 }
 
+class ListResult {
+  status: GetResultStatus;
+  model: BoardModel[];
+
+  constructor(status: GetResultStatus, model?: BoardModel[]) {
+    (this.model = model), (this.status = status);
+  }
+}
+
 abstract class GetBoard {
   abstract get(command: GetCommand): Promise<GetResult>;
+  abstract list(): Promise<ListResult>;
 }
 
 @Injectable()
@@ -39,6 +49,17 @@ export class GetBoardService implements GetBoard {
     private readonly gateway: BoardGateway,
     @InjectMapper() private readonly mapper: Mapper,
   ) {}
+
+  async list(): Promise<ListResult> {
+    const boards = await this.gateway.list();
+    if (!boards || boards.length == 0)
+      return new ListResult(GetResultStatus.NotFound);
+    const boardModel = boards.map((board) =>
+      this.mapper.map(board, Board, BoardModel),
+    );
+
+    return new ListResult(GetResultStatus.Found, boardModel);
+  }
 
   async get(command: GetCommand): Promise<GetResult> {
     const board = await this.gateway.findOne(command.id);
