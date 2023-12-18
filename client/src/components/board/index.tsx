@@ -48,7 +48,7 @@ const BoardTable = () => {
 	return (
 		<div className="h-screen m-2">
 			<BackButton className="absolute top-2.5" onClick={handleGoBack} />
-			<h1>BOARD NAME HERE</h1>
+			<h1>{board.name}</h1>
 			<TableView board={board} />
 		</div>
 	);

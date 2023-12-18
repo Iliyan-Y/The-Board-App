@@ -21,7 +21,7 @@ const BoardTask = ({ columnId }: IBoardTaskProps) => {
 					draggable
 					key={task.id}
 					onDragStart={() => handleOnDragStart(task)}
-					className="cursor-move"
+					className="cursor-pointer"
 				>
 					{task.name}
 				</div>
