@@ -1,16 +1,11 @@
 "use client";
 import { useEffect } from "react";
 import axios from "axios";
-import { apiRoot } from "../../helpers/api";
+import { API } from "../../helpers/api";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-	Board,
-	IBoardColumns,
-	selectBoard,
-	setBoardState,
-} from "../../state/slices/board";
+import { Board, selectBoard, setBoardState } from "../../state/slices/board";
 import { ReduxHooks } from "../../state/hooks";
-import { setTaskState } from "../../state/slices/task/task";
+import { getTasks } from "../../state/slices/task/task";
 import TableView from "./tableView";
 import BackButton from "../common/buttons/backButton";
 
@@ -20,37 +15,19 @@ const BoardTable = () => {
 	const dispatch = ReduxHooks.useAppDispatch();
 	const board = ReduxHooks.useAppSelector(selectBoard);
 
-	//TODO: convert to custom hook
-	//------------------
 	const getBoard = async () => {
+		if (!id) return console.error("Board id not found");
 		try {
-			const res = await axios.get(`${apiRoot}/${id}`);
+			const res = await axios.get(API.board.GET_BY_ID(id));
 			if (res.data) {
 				const boardRes = res.data as Board;
-
-				const tasks = await getAllTasks(boardRes.columns);
-
 				dispatch(setBoardState(boardRes));
-				dispatch(setTaskState(tasks));
+				dispatch(getTasks(boardRes.columns));
 			}
 		} catch (error) {
 			console.error(error);
 			navigate("/");
 		}
-	};
-
-	const getTasks = async (columnId: string) => {
-		const res = await axios.get(`${apiRoot}/task/${columnId}`);
-		return res.data;
-	};
-
-	const getAllTasks = async (cols: IBoardColumns[]) => {
-		let t: IBoardColumns[] = [];
-		for (const col of cols) {
-			const data = await getTasks(col.id);
-			t = [...t, ...data];
-		}
-		return t;
 	};
 
 	useEffect(() => {
@@ -65,8 +42,6 @@ const BoardTable = () => {
 		dispatch(setBoardState(null));
 		navigate("/");
 	};
-
-	//------------------
 
 	if (!board?.columns) return <div>Loading....</div>;
 
