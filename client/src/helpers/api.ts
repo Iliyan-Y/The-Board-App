@@ -6,6 +6,7 @@ export const API = {
 		CREATE: `${apiRoot}/task`,
 	},
 	board: {
-		CREATE: `${apiRoot}`,
+		LIST: apiRoot,
+		CREATE: apiRoot,
 	},
 };

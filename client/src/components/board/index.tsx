@@ -22,7 +22,6 @@ const BoardTable = () => {
 	//TODO: convert to custom hook
 	//------------------
 	const getBoard = async () => {
-		if (board) return;
 		try {
 			const res = await axios.get(`${apiRoot}/${id}`);
 			if (res.data) {
@@ -59,7 +58,7 @@ const BoardTable = () => {
 		return () => {
 			source.cancel();
 		};
-	}, []);
+	}, [id]);
 
 	//------------------
 
