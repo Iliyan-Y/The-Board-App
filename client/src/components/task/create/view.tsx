@@ -1,11 +1,9 @@
 import { Dispatch, SetStateAction, useState } from "react";
-import { CreateTaskService } from "./services/create";
-import { CreateRequest } from "./models/create";
 import { ReduxHooks } from "../../../state/hooks";
-import { addTask } from "../../../state/slices/task";
+import { addTask } from "../../../state/slices/task/task";
+import { CreateRequest } from "../../../state/slices/task/model";
 
 interface CreateTaskPros {
-	service: CreateTaskService;
 	showModal: boolean;
 	columnId: string;
 	setShowModal: Dispatch<SetStateAction<boolean>>;
@@ -15,7 +13,6 @@ const CreateTaskModal = ({
 	showModal,
 	setShowModal,
 	columnId,
-	service,
 }: CreateTaskPros) => {
 	const dispatch = ReduxHooks.useAppDispatch();
 	const [taskName, setTaskName] = useState("");
@@ -23,12 +20,8 @@ const CreateTaskModal = ({
 
 	const handleSave = async () => {
 		const data = new CreateRequest(taskName, columnId, description);
-		const task = await service.createTask(data);
-		dispatch(addTask(task));
-		if (task) {
-			console.log("Dispatch to store", task);
-			return handleClose();
-		}
+		dispatch(addTask(data));
+		handleClose();
 	};
 
 	const handleClose = () => {

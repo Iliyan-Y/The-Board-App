@@ -1,6 +1,6 @@
 import { Action, ThunkAction, configureStore } from "@reduxjs/toolkit";
 import boardSlice from "./slices/board";
-import taskSlice from "./slices/task";
+import taskSlice from "./slices/task/task";
 
 // export const makeStore = () => {
 // 	return configureStore({

@@ -8,6 +8,7 @@ import { CreateResponse } from "src/API/Task/Models/CreateResponse";
 import { ListByColumnIdRequest } from "src/API/Task/Models/ListByColumnIdRequest";
 import { ListByColIdCommand } from "src/Domain/Task/services/list";
 import { ListByColumnIdResult } from "src/API/Task/Models/ListByColumnIdResult";
+import { UpdateCommand } from "src/Domain/Task/services/update";
 
 @Injectable()
 export class TaskProfile extends AutomapperProfile {
@@ -20,6 +21,15 @@ export class TaskProfile extends AutomapperProfile {
       createMap(
         mapper,
         CreateCommand,
+        Task,
+        forMember(
+          (destination) => destination.column.id,
+          mapFrom((source) => source.columnId),
+        ),
+      );
+      createMap(
+        mapper,
+        UpdateCommand,
         Task,
         forMember(
           (destination) => destination.column.id,

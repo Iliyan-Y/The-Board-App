@@ -5,4 +5,5 @@ import { Task } from "./entity";
 export abstract class TaskGateway {
   abstract create(model: Task): Promise<Task>;
   abstract listColTask(columnId: string): Promise<Task[]>;
+  abstract update(model: Task): Promise<Task>;
 }

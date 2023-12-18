@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ReduxHooks } from "../../state/hooks";
 import { Board } from "../../state/slices/board";
-import { moveTask } from "../../state/slices/task";
+import { selectedTask, updateTask } from "../../state/slices/task/task";
 import BoardTask from "../task";
 import TableHead from "./tableHeadView";
 
@@ -13,6 +13,7 @@ const TableView = ({ board }: TableViewProps) => {
 	const dispatch = ReduxHooks.useAppDispatch();
 	const columns = board?.columns;
 	const [selectedColumn, setSelectedColumn] = useState("");
+	const task = ReduxHooks.useAppSelector(selectedTask);
 
 	const handleOnDragOver = (
 		e: React.DragEvent<HTMLDivElement>,
@@ -24,8 +25,7 @@ const TableView = ({ board }: TableViewProps) => {
 	};
 
 	const handleOnDrop = () => {
-		//TODO: record the change in the DB
-		dispatch(moveTask(selectedColumn));
+		dispatch(updateTask({ ...task!, columnId: selectedColumn }));
 		setSelectedColumn("");
 	};
 
