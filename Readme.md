@@ -1,26 +1,20 @@
-# MVP
+# Overview
 
-- Board with at least 3 initial columns (Applied, Interviewing, Rejected)
-- Ability to add more columns
-- Each column should be able to take "notes"
-- Notes should be dragged with mouse across the columns
-- Notes should be expandable to show more information.
-- Notes should be able to scrap html web page when link is provided
-- Notes should be able to replicate the html content of the scrapped page
+The purpose of this application is to leverage contemporary technology to enhance the efficiency of the job hunting process by incorporating artificial intelligence (AI) capabilities. It is designed to provide a seamless experience for users, utilizing automation features to streamline various aspects of the job search. While acknowledging its resemblance to other job boards, the distinctive feature of this application lies in its strategic integration of automation to facilitate a more streamlined and user-friendly job hunting experience.
 
 # Tech Stack
 
 ## Backend
 
-- should following CLEAN architecture (SOLID)
+- follow CLEAN architecture and SOLID principles
 - nest.js
 - TypeORM
 - postgres
 
 ## Frontend
 
-- web app - react
-- next.js ? vite ?
+- react
+- vite
 
 ## Deployment
 
@@ -45,8 +39,19 @@ DB_PASSWORD=IF_password_required
 - install the dependency cd "backend"/"client `yarn install`
 
 - start the backend server - `yarn dev`
+
+- Front end .env
+
+```
+VITE_PUBLIC_API_BASE_PATH=http://localhost:3001
+```
+
 - star the client server - `yarn dev`
 
 # Test
 
 - cd to relevant solution backend/client and run: `yarn test`
+
+# Disclaimer
+
+The utilization of this application is intended to align with ethical standards and is not intended for surreptitious or dishonest purposes. It is advised against using this application as a brute force tool for job applications. The suggestion is that if a job application process can be automated to such an extent, it implies a potential flaw in the prevailing procedures utilized by companies and recruiters for candidate selection. Emphasis is placed on the recommendation that companies and recruiters should prioritize assessing individuals' character through engaging and forthright conversations rather than relying on facile, memorized responses to repetitive questions. The use of predefined questions is cautioned against, as it often results in predetermined answers, limiting the depth and authenticity of candidate evaluations.
