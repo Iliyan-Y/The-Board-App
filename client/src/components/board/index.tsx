@@ -12,6 +12,7 @@ import {
 import { ReduxHooks } from "../../state/hooks";
 import { setTaskState } from "../../state/slices/task/task";
 import TableView from "./tableView";
+import BackButton from "../common/buttons/backButton";
 
 const BoardTable = () => {
 	const { id } = useParams();
@@ -60,12 +61,18 @@ const BoardTable = () => {
 		};
 	}, [id]);
 
+	const handleGoBack = () => {
+		dispatch(setBoardState(null));
+		navigate("/");
+	};
+
 	//------------------
 
 	if (!board?.columns) return <div>Loading....</div>;
 
 	return (
 		<div className="h-screen m-2">
+			<BackButton className="absolute top-2.5" onClick={handleGoBack} />
 			<h1>BOARD NAME HERE</h1>
 			<TableView board={board} />
 		</div>
