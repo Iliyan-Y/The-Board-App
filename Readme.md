@@ -13,8 +13,9 @@ The purpose of this application is to leverage contemporary technology to enhanc
 
 ## Frontend
 
-- react
 - vite
+- react
+- redux
 
 ## Deployment
 

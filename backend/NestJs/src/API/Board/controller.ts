@@ -33,6 +33,21 @@ export class BoardController {
     @InjectMapper() private readonly mapper: Mapper,
   ) {}
 
+  @Get()
+  async listAllBoard() {
+    const result = await this.getService.list();
+    switch (result.status) {
+      case GetResultStatus.Found:
+        return result.model;
+      case GetResultStatus.NotFound:
+        return [];
+      default:
+        throw Error(
+          `An unexpected issue occurred when listing Boards. Result was: ${result}`,
+        );
+    }
+  }
+
   @Get(":id")
   async findOne(
     @Param(MapPipe(FindOneRequest, GetCommand)) command: GetCommand,
@@ -46,7 +61,7 @@ export class BoardController {
         throw new HttpException("Not Found", HttpStatus.NOT_FOUND);
       default:
         throw Error(
-          `An unexpected issue occurred when creating Board. Result was: ${result}`,
+          `An unexpected issue occurred when getting Board. Result was: ${result}`,
         );
     }
   }
