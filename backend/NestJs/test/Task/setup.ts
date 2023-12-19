@@ -1,6 +1,8 @@
 import { ValidationPipe } from "@nestjs/common";
 import { TaskController } from "src/API/Task/controller";
 import { CreateTaskService } from "src/Domain/Task/services/create";
+import { ListService } from "src/Domain/Task/services/list";
+import { UpdateTaskService } from "src/Domain/Task/services/update";
 import { TaskRepository } from "src/Gateways.DB/Task/repository";
 import { Board } from "src/Gateways/Board/entity";
 import { BoardColumn } from "src/Gateways/BoardColumn/entity";
@@ -13,6 +15,8 @@ const entities = [Board, BoardColumn, Task];
 const controllers = [TaskController];
 const providers = [
   TaskProfile,
+  ListService,
+  UpdateTaskService,
   CreateTaskService,
   { provide: TaskGateway, useClass: TaskRepository },
 ];
