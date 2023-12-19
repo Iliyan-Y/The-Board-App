@@ -1,5 +1,12 @@
 import { AutoMap } from "@automapper/classes";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from "typeorm";
 import { BoardColumn } from "../BoardColumn/entity";
 
 @Entity()
@@ -19,4 +26,12 @@ export class Task {
   @AutoMap()
   @ManyToOne(() => BoardColumn, (column) => column.tasks)
   column: BoardColumn;
+
+  @AutoMap()
+  @CreateDateColumn()
+  created_at: Date;
+
+  @AutoMap()
+  @UpdateDateColumn()
+  updated_at: Date;
 }

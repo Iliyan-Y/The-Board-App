@@ -12,4 +12,10 @@ export class ListByColumnIdResult {
 
   @AutoMap()
   columnId: string;
+
+  @AutoMap()
+  created_at: Date;
+
+  @AutoMap()
+  updated_at: Date;
 }
