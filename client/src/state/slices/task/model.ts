@@ -3,6 +3,8 @@ export interface IBoardTask {
 	name: string;
 	description: string;
 	columnId: string;
+	created_at: string;
+	updated_at: string;
 }
 
 export interface TaskState {

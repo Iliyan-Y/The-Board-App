@@ -13,4 +13,10 @@ export class TaskModel {
 
   @AutoMap(() => BoardColumnModel)
   column: BoardColumnModel;
+
+  @AutoMap()
+  created_at: Date;
+
+  @AutoMap()
+  updated_at: Date;
 }
