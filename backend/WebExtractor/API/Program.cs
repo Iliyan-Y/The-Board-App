@@ -8,6 +8,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddDomain();
+builder.Services.AddWebScrapper();
 
 var app = builder.Build();
 
