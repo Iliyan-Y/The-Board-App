@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WebExtractor.WebScrapper;
 
+
 namespace WebExtractor.Api.WebScrapper;
 
 [Route("[controller]")]
@@ -19,6 +20,18 @@ public class WebScrapperController : ControllerBase
     {
         var res = await service.GetPage("https://www.google.com");
         return Ok(res);
+    }
+
+
+    [HttpPost]
+    public ContentResult Test()
+    {
+        var html = System.IO.File.ReadAllText("../Downloads/output.html");
+        return new ContentResult
+        {
+            ContentType = "text/html",
+            Content = html
+        };
     }
 }
 

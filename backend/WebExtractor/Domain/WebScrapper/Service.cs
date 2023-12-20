@@ -12,7 +12,7 @@ internal sealed class WebScrapperService : IWebScrapperService
 
   public async Task<Boolean> GetPage(string url)
   {
-    var res = await _gateway.GetPages(url);
+    var res = await _gateway.GetPage(url);
     return res;
   }
 }
