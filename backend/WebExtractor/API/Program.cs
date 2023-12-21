@@ -10,6 +10,8 @@ builder.Services.AddControllers();
 builder.Services.AddDomain();
 builder.Services.AddWebScrapper();
 
+builder.Services.AddAutoMapper(typeof(Program).Assembly, typeof(Domain).Assembly);
+
 
 builder.Services.AddCors(options =>
 {

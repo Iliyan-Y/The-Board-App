@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using WebExtractor.WebScrapper;
 
@@ -8,23 +9,25 @@ namespace WebExtractor.Api.WebScrapper;
 [ApiController]
 public class WebScrapperController : ControllerBase
 {
-    private readonly IWebScrapperService service;
+    private readonly IWebScrapperService _service;
+    private readonly IMapper _mapper;
 
-    public WebScrapperController(IWebScrapperService service)
+    public WebScrapperController(IWebScrapperService service, IMapper mapper)
     {
-        this.service = service;
+        _service = service;
+        _mapper = mapper;
     }
 
-    [HttpGet]
-    public async Task<IActionResult> Get()
+    [HttpPost]
+    public async Task<IActionResult> SavePage(SavePageRequestModel requestModel)
     {
-        var res = await service.GetPage("https://www.google.com");
+        var res = await _service.SavePage(_mapper.Map<SavePageCommand>(requestModel));
         return Ok(res);
     }
 
 
-    [HttpPost]
-    public ContentResult Test()
+    [HttpGet]
+    public ContentResult Get()
     {
         var html = System.IO.File.ReadAllText("../Downloads/output.html");
         return new ContentResult
