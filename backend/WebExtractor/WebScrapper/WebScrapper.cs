@@ -8,12 +8,7 @@ internal sealed class WebScrapper : WebScrapperGateway
   {
     // TODO: move to config
     var downloadsPath = $"../Downloads/{model.BoardId}/";
-
-    var ifExists = Directory.Exists(downloadsPath);
-    if (!ifExists)
-    {
-      Directory.CreateDirectory(downloadsPath);
-    }
+    DirectoryCheck(downloadsPath);
 
     await new BrowserFetcher().DownloadAsync();
     using var browser = await Puppeteer.LaunchAsync(new LaunchOptions { Headless = true });
@@ -27,5 +22,13 @@ internal sealed class WebScrapper : WebScrapperGateway
     return true;
   }
 
+  private void DirectoryCheck(string path)
+  {
+    var ifExists = Directory.Exists(path);
+    if (!ifExists)
+    {
+      Directory.CreateDirectory(path);
+    }
+  }
 
 }

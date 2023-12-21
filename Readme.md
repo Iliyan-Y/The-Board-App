@@ -11,6 +11,10 @@ The purpose of this application is to leverage contemporary technology to enhanc
 - TypeORM
 - postgres
 
+### There is second backend which is responsible for the web extraction using .net 8
+
+It's not that NestJS can't handle all the requirements but to have direct comparison between two ecosystems and how a CLEAN project architecture can be achieved with both following the SOLID principles.
+
 ## Frontend
 
 - vite
@@ -25,11 +29,12 @@ The purpose of this application is to leverage contemporary technology to enhanc
 
 - nodejs
 - postgresql
+- dotnet 8
 
 # Setup
 
 - create database in postgres
-- create .env file in the backed dir
+- create .env file in the backed/nestjs dir
 
 ```
 DB_NAME=your_db_name
@@ -41,10 +46,19 @@ DB_PASSWORD=IF_password_required
 
 - start the backend server - `yarn dev`
 
+- start the web extractor backend. From the project dir:
+
+```
+dotnet restore
+dotnet build
+dotnet run
+```
+
 - Front end .env
 
 ```
 VITE_PUBLIC_API_BASE_PATH=http://localhost:3001
+VITE_PUBLIC_EXTRACTOR_API_BASE_PATH=http://localhost:PORT
 ```
 
 - star the client server - `yarn dev`
