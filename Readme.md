@@ -40,6 +40,7 @@ It's not that NestJS can't handle all the requirements but to have direct compar
 DB_NAME=your_db_name
 DB_USERNAME=your_db_user_name
 DB_PASSWORD=IF_password_required
+EXTRACTOR_API_BASE_PATH=http://localhost:PORT
 ```
 
 - install the dependency cd "backend"/"client `yarn install`
@@ -51,14 +52,13 @@ DB_PASSWORD=IF_password_required
 ```
 dotnet restore
 dotnet build
-dotnet run
+cd API && dotnet run
 ```
 
 - Front end .env
 
 ```
 VITE_PUBLIC_API_BASE_PATH=http://localhost:3001
-VITE_PUBLIC_EXTRACTOR_API_BASE_PATH=http://localhost:PORT
 ```
 
 - star the client server - `yarn dev`

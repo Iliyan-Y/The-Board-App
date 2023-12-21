@@ -21,8 +21,14 @@ public class WebScrapperController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> SavePage(SavePageRequestModel requestModel)
     {
-        var res = await _service.SavePage(_mapper.Map<SavePageCommand>(requestModel));
-        return Ok(res);
+        var result = await _service.SavePage(_mapper.Map<SavePageCommand>(requestModel));
+
+        return result.Status switch
+        {
+            SavePageResultStatus.Saved => Created("", result.Result),
+            SavePageResultStatus.FailedToCreate => Conflict(),
+            _ => Problem("An unexpected issue occurred while Creating the Investor")
+        };
     }
 
 
