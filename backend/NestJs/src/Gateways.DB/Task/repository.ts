@@ -1,4 +1,5 @@
 import { InjectRepository } from "@nestjs/typeorm";
+import { Board } from "src/Gateways/Board/entity";
 import { Task } from "src/Gateways/Task/entity";
 import { TaskGateway } from "src/Gateways/Task/gateway";
 import { Repository } from "typeorm";
@@ -9,6 +10,10 @@ export class TaskRepository implements TaskGateway {
   async create(model: Task): Promise<Task> {
     const task = this.repository.create(model);
     await this.repository.save(task);
+    const column = await this.repository.query(
+      `SELECT * FROM board_column WHERE id = '${task.column.id}'`,
+    );
+    task.column.board = { id: column[0].boardId } as Board;
     return task;
   }
 

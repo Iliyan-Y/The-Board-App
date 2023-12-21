@@ -58,12 +58,12 @@ export class CreateTaskService implements CreateTask {
     const model = this.mapper.map(command, CreateCommand, Task);
     const task = await this.gateway.create(model);
     if (!task) return new CreateResult(CreateResultStatus.FailedToCreate);
-    console.log("task: ", task);
-    // if (task.url) {
-    //   this.webExtractor.extract(
-    //     new ExtractPageRequest(task.id, task.column.board.id, task.url),
-    //   );
-    // }
+    console.log("Task created: ", task);
+    if (task.url) {
+      this.webExtractor.extract(
+        new ExtractPageRequest(task.id, task.column.board.id, task.url),
+      );
+    }
 
     const taskModel = this.mapper.map(task, Task, TaskModel);
     return new CreateResult(CreateResultStatus.Created, taskModel);
