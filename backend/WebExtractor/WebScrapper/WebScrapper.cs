@@ -7,7 +7,7 @@ internal sealed class WebScrapper : WebScrapperGateway
   public async Task<bool> SavePage(DataModel model)
   {
     // TODO: move to config
-    var downloadsPath = $"../Downloads/{model.TaskId}/";
+    var downloadsPath = $"../Downloads/{model.BoardId}/";
 
     var ifExists = Directory.Exists(downloadsPath);
     if (!ifExists)
@@ -22,7 +22,7 @@ internal sealed class WebScrapper : WebScrapperGateway
     await page.WaitForTimeoutAsync(1000);
     var bodyHtml = await page.EvaluateExpressionAsync<string>("document.body.innerHTML");
     var htmlContent = await page.GetContentAsync();
-    File.WriteAllText(downloadsPath + model.TaskName + ".html", bodyHtml);
+    File.WriteAllText(downloadsPath + model.TaskId + ".html", bodyHtml);
 
     return true;
   }

@@ -1,4 +1,4 @@
-public sealed record SavePageCommand(string TaskName, Guid TaskId, string Url);
+public sealed record SavePageCommand(Guid BoardId, Guid TaskId, string Url);
 
 public sealed record SaveResult(SavePageResultStatus Status,
   bool? Result = null);
