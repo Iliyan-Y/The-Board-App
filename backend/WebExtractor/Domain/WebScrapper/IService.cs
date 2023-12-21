@@ -2,5 +2,5 @@ namespace WebExtractor.WebScrapper;
 
 public interface IWebScrapperService
 {
-  Task<Boolean> GetPage(string url);
+  Task<SaveResult> SavePage(SavePageCommand command);
 }

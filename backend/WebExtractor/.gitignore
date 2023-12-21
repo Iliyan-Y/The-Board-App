@@ -483,3 +483,4 @@ $RECYCLE.BIN/
 # Vim temporary swap files
 *.swp
 Downloads/*.html
+Downloads/*/*.html
