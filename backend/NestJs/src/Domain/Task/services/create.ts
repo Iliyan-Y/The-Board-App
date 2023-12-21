@@ -14,6 +14,9 @@ export class CreateCommand {
   description: string;
 
   @AutoMap()
+  url: string;
+
+  @AutoMap()
   columnId: string;
 
   constructor(name: string, description: string, columnId: string) {
@@ -52,7 +55,6 @@ export class CreateTaskService implements CreateTask {
     const model = this.mapper.map(command, CreateCommand, Task);
     const task = await this.gateway.create(model);
     const taskModel = this.mapper.map(task, Task, TaskModel);
-
     if (!taskModel) return new CreateResult(CreateResultStatus.FailedToCreate);
 
     return new CreateResult(CreateResultStatus.Created, taskModel);

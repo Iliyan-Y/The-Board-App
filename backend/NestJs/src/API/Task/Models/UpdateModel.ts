@@ -11,5 +11,8 @@ export class UpdateRequest {
   description: string;
 
   @AutoMap()
+  url: string;
+
+  @AutoMap()
   columnId: string;
 }

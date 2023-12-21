@@ -23,6 +23,10 @@ export class Task {
   @AutoMap()
   description: string;
 
+  @Column({ nullable: true })
+  @AutoMap()
+  url: string;
+
   @AutoMap()
   @ManyToOne(() => BoardColumn, (column) => column.tasks)
   column: BoardColumn;
