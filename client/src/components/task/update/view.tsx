@@ -30,7 +30,6 @@ const UpdateTaskModal = ({ task, setUpdateTask }: CreateTaskPros) => {
 			</div>
 
 			<div className="flex flex-col h-full justify-center w-1/2 mx-auto">
-				<h3 className="font-bold text-lg text-black/75">Create Task</h3>
 				<input
 					type="text"
 					placeholder="Name"

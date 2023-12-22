@@ -44,7 +44,7 @@ const CreateTaskModal = ({
 			style={{ display: showModal ? "block" : "none" }}
 		>
 			<div className="flex flex-col h-full justify-center w-1/2 mx-auto">
-				<h3 className="font-bold text-lg text-black/75">New</h3>
+				<h3 className="font-bold text-lg text-black/75">Create new item</h3>
 				<input
 					type="text"
 					placeholder="Name"
