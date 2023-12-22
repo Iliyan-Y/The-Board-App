@@ -10,6 +10,9 @@ export class CreateRequest {
   description: string;
 
   @AutoMap()
+  url: string;
+
+  @AutoMap()
   @IsNotEmpty()
   columnId: string;
 }

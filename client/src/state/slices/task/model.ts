@@ -2,6 +2,7 @@ export interface IBoardTask {
 	id: string;
 	name: string;
 	description: string;
+	url: string;
 	columnId: string;
 	created_at: string;
 	updated_at: string;
@@ -16,6 +17,7 @@ export class CreateRequest {
 	constructor(
 		public name: string,
 		public columnId: string,
-		public description?: string
+		public description?: string,
+		public url?: string
 	) {}
 }

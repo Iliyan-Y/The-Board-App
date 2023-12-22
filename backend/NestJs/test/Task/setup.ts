@@ -4,10 +4,12 @@ import { CreateTaskService } from "src/Domain/Task/services/create";
 import { ListService } from "src/Domain/Task/services/list";
 import { UpdateTaskService } from "src/Domain/Task/services/update";
 import { TaskRepository } from "src/Gateways.DB/Task/repository";
+import { WebExtractorRepository } from "src/Gateways.WebExtractor/repository";
 import { Board } from "src/Gateways/Board/entity";
 import { BoardColumn } from "src/Gateways/BoardColumn/entity";
 import { Task } from "src/Gateways/Task/entity";
 import { TaskGateway } from "src/Gateways/Task/gateway";
+import { WebExtractorGateway } from "src/Gateways/WebExtractor/gateway";
 import { TaskProfile } from "src/Modules/Task/mapper.profile";
 import { createTestApi } from "test/helpers/api";
 
@@ -19,6 +21,7 @@ const providers = [
   UpdateTaskService,
   CreateTaskService,
   { provide: TaskGateway, useClass: TaskRepository },
+  { provide: WebExtractorGateway, useClass: WebExtractorRepository },
 ];
 
 export async function createDefaultTestingModule() {

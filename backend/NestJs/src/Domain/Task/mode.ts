@@ -11,6 +11,9 @@ export class TaskModel {
   @AutoMap()
   description: string;
 
+  @AutoMap()
+  url: string;
+
   @AutoMap(() => BoardColumnModel)
   column: BoardColumnModel;
 

@@ -16,10 +16,13 @@ const CreateTaskModal = ({
 }: CreateTaskPros) => {
 	const dispatch = ReduxHooks.useAppDispatch();
 	const [taskName, setTaskName] = useState("");
+	const [taskUrl, setTaskUrl] = useState("");
 	const [description, setDescription] = useState("");
 
 	const handleSave = async () => {
-		const data = new CreateRequest(taskName, columnId, description);
+		const data = new CreateRequest(taskName, columnId, description, taskUrl);
+		console.log(data);
+
 		dispatch(addTask(data));
 		handleClose();
 	};
@@ -32,6 +35,7 @@ const CreateTaskModal = ({
 	const resetFields = () => {
 		setTaskName("");
 		setDescription("");
+		setTaskUrl("");
 	};
 
 	return (
@@ -40,13 +44,20 @@ const CreateTaskModal = ({
 			style={{ display: showModal ? "block" : "none" }}
 		>
 			<div className="flex flex-col h-full justify-center w-1/2 mx-auto">
-				<h3 className="font-bold text-lg text-black/75">Create Task</h3>
+				<h3 className="font-bold text-lg text-black/75">Create new item</h3>
 				<input
 					type="text"
 					placeholder="Name"
 					value={taskName}
 					className="input input-bordered w-full max-w-xs mx-auto my-2"
 					onChange={(e) => setTaskName(e.target.value)}
+				/>
+				<input
+					type="text"
+					placeholder="URL"
+					className="input input-bordered w-full max-w-xs mx-auto my-2"
+					value={taskUrl}
+					onChange={(e) => setTaskUrl(e.target.value)}
 				/>
 				<textarea
 					className="textarea textarea-bordered mb-2"

@@ -11,6 +11,9 @@ export class CreateResponse {
   description: string;
 
   @AutoMap()
+  url: string;
+
+  @AutoMap()
   columnId: string;
 
   @AutoMap()

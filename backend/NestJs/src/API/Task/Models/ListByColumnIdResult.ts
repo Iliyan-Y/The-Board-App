@@ -11,6 +11,9 @@ export class ListByColumnIdResult {
   description: string;
 
   @AutoMap()
+  url: string;
+
+  @AutoMap()
   columnId: string;
 
   @AutoMap()
