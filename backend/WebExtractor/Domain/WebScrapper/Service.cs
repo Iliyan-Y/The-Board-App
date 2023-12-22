@@ -14,7 +14,12 @@ internal sealed class WebScrapperService : IWebScrapperService
     _gateway = gateway;
   }
 
-
+  public GetSavedResult GetSavedPage(GetSavedPageCommand command)
+  {
+    var result = _gateway.GetSavedPage(_mapper.Map<DataModel>(command));
+    if (result != null) return new GetSavedResult(GetSavedPageResultStatus.Found, result);
+    return new GetSavedResult(GetSavedPageResultStatus.NotFound);
+  }
 
   public async Task<SaveResult> SavePage(SavePageCommand command)
   {
