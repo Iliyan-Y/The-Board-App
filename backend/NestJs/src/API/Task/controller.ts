@@ -9,6 +9,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from "@nestjs/common";
 import { CreateRequest } from "./Models/CreateRequest";
 import {
@@ -31,6 +32,11 @@ import {
   UpdateResultStatus,
   UpdateTaskService,
 } from "src/Domain/Task/services/update";
+import {
+  GetExtractedPageCommand,
+  GetExtractedPageResultStatus,
+  WebExtractorService,
+} from "src/Domain/Task/services/webExtractor";
 
 @Controller("task")
 export class TaskController {
@@ -39,6 +45,7 @@ export class TaskController {
     private readonly createService: CreateTaskService,
     private readonly listService: ListService,
     private readonly updateService: UpdateTaskService,
+    private readonly extractor: WebExtractorService,
   ) {}
 
   @Post()
@@ -103,6 +110,29 @@ export class TaskController {
       default:
         throw Error(
           `An unexpected issue occurred when updating Task with id ${command.id}. Result Status was: ${result.status}`,
+        );
+    }
+  }
+
+  @Get(":taskId/extract")
+  async getExtractedPage(
+    @Query() { boardId }: { boardId: string },
+    @Param() { taskId }: { taskId: string },
+  ) {
+    const command = new GetExtractedPageCommand(boardId, taskId);
+    const result = await this.extractor.getExtractedPage(command);
+
+    switch (result.status) {
+      case GetExtractedPageResultStatus.Found:
+        return result.value;
+      case GetExtractedPageResultStatus.NotFound:
+        throw new HttpException(
+          `Page for task with id ${taskId} not found`,
+          HttpStatus.NOT_FOUND,
+        );
+      default:
+        throw Error(
+          `An unexpected issue occurred when getting extracted page for task ${taskId}`,
         );
     }
   }

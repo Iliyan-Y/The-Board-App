@@ -1,6 +1,7 @@
 import { ValidationPipe } from "@nestjs/common";
 import { TaskController } from "src/API/Task/controller";
 import { CreateTaskService } from "src/Domain/Task/services/create";
+import { WebExtractorService } from "src/Domain/Task/services/webExtractor";
 import { ListService } from "src/Domain/Task/services/list";
 import { UpdateTaskService } from "src/Domain/Task/services/update";
 import { TaskRepository } from "src/Gateways.DB/Task/repository";
@@ -20,6 +21,7 @@ const providers = [
   ListService,
   UpdateTaskService,
   CreateTaskService,
+  WebExtractorService,
   { provide: TaskGateway, useClass: TaskRepository },
   { provide: WebExtractorGateway, useClass: WebExtractorRepository },
 ];

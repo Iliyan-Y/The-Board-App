@@ -10,6 +10,7 @@ import { ListService } from "src/Domain/Task/services/list";
 import { UpdateTaskService } from "src/Domain/Task/services/update";
 import { WebExtractorGateway } from "src/Gateways/WebExtractor/gateway";
 import { WebExtractorRepository } from "src/Gateways.WebExtractor/repository";
+import { WebExtractorService } from "src/Domain/Task/services/webExtractor";
 
 @Module({
   imports: [TypeOrmModule.forFeature([Task])],
@@ -19,6 +20,7 @@ import { WebExtractorRepository } from "src/Gateways.WebExtractor/repository";
     ListService,
     UpdateTaskService,
     CreateTaskService,
+    WebExtractorService,
     { provide: TaskGateway, useClass: TaskRepository },
     { provide: WebExtractorGateway, useClass: WebExtractorRepository },
   ],
