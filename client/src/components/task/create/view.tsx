@@ -21,8 +21,7 @@ const CreateTaskModal = ({
 
 	const handleSave = async () => {
 		const data = new CreateRequest(taskName, columnId, description, taskUrl);
-		console.log(data);
-
+		// TODO: create fake loading bar if task url is provided to wait for page to be saved
 		dispatch(addTask(data));
 		handleClose();
 	};
