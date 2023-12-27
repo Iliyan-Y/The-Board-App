@@ -43,12 +43,6 @@ public class WebScrapperController : ControllerBase
             GetSavedPageResultStatus.NotFound => NotFound(),
             _ => Problem("An unexpected issue occurred while Creating the Investor")
         };
-
-        // return new ContentResult
-        // {
-        //     ContentType = "text/html",
-        //     Content = html
-        // };
     }
 }
 

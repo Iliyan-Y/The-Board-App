@@ -1,7 +1,8 @@
 import { Injectable } from "@nestjs/common";
-import { ExtractPageRequest } from "./model";
+import { ExtractorPageModel } from "./model";
 
 @Injectable()
 export abstract class WebExtractorGateway {
-  abstract extract(model: ExtractPageRequest): Promise<boolean>;
+  abstract extract(model: ExtractorPageModel): Promise<boolean>;
+  abstract showPage(model: ExtractorPageModel): Promise<string>;
 }

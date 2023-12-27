@@ -1,4 +1,4 @@
-export class ExtractPageRequest {
+export class ExtractorPageModel {
   constructor(
     public taskId: string,
     public boardId: string,
