@@ -1,18 +1,7 @@
-import { useState } from "react";
 import parse from "html-react-parser";
-import axios from "axios";
 import "./test.css";
 
-const WebExtractedPage = () => {
-	const [html, setHtml] = useState("<li>Item 1</li><li>Item 2</li>");
-
-	const load = async () => {
-		await axios
-			.post("http://localhost:5120/WebScrapper")
-			.then((r) => setHtml(r.data))
-			.catch((e) => console.log(e));
-	};
-
+const WebExtractedPage = ({ html }: { html: string }) => {
 	const handleTextSelection = () => {
 		const selection = window.getSelection();
 		const selectedContent = selection?.toString();
@@ -20,18 +9,12 @@ const WebExtractedPage = () => {
 	};
 
 	return (
-		<>
-			<button className="btn" onClick={load}>
-				Load
-			</button>
-
-			<div
-				onMouseUp={handleTextSelection}
-				className="w-3/4 h-3/4 absolute bg-gray-500 top-28 left-10 overflow-auto"
-			>
-				{parse(html)}
-			</div>
-		</>
+		<div
+			onMouseUp={handleTextSelection}
+			className="w-3/4 h-3/4 absolute bg-white top-28 left-10 overflow-auto"
+		>
+			{parse(html)}
+		</div>
 	);
 };
 
