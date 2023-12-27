@@ -114,12 +114,13 @@ export class TaskController {
     }
   }
 
-  @Get(":taskId/extract")
+  @Get(":taskId/get-page")
   async getExtractedPage(
     @Query() { boardId }: { boardId: string },
     @Param() { taskId }: { taskId: string },
   ) {
-    const command = new GetExtractedPageCommand(boardId, taskId);
+    const command = new GetExtractedPageCommand(taskId, boardId);
+
     const result = await this.extractor.getExtractedPage(command);
 
     switch (result.status) {

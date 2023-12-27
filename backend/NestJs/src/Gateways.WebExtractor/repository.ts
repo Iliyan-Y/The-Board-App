@@ -7,7 +7,8 @@ export class WebExtractorRepository implements WebExtractorGateway {
 
   async showPage(model: ExtractorPageModel): Promise<string> {
     const apiEndpoint = `${this.webExtractorApi}/WebScrapper/${model.taskId}`;
-    const result = await axios.post(apiEndpoint, {
+    console.log(model);
+    const result = await axios.get(apiEndpoint, {
       params: { boardId: model.boardId },
     });
     console.log("Status from get extracted page: ", result.status);
