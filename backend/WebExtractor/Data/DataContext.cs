@@ -12,4 +12,5 @@ public class DataContext : DbContext
   public DbSet<Board> Boards { get; set; }
   public DbSet<BoardColumn> BoardColumns { get; set; }
   public DbSet<Task> Tasks { get; set; }
+  public DbSet<Question> Questions { get; set; }
 }

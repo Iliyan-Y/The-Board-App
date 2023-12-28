@@ -10,7 +10,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddDomain();
 builder.Services.AddWebScrapper();
-builder.Services.AddDatabase(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDatabase(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("WebExtractor.Api")));
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly, typeof(Domain).Assembly);
 

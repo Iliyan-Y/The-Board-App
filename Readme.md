@@ -53,8 +53,19 @@ API secrets:
 
 ```
 {
-	"DefaultConnection": "Host=localhost;Database=my_db;Username=my_user;Password=my_pw"
+	"ConnectionStrings": {
+		"DefaultConnection": "Host=localhost;Port=5432;Database=the_board;Username=your_user_name;Password=password"
+	}
 }
+```
+
+Migrations:
+
+```
+cd Api
+dotnet ef migrations add MigrationName
+dotnet ef database update
+
 ```
 
 ```
