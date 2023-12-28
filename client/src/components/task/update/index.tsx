@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Dispatch, SetStateAction, useState } from "react";
 import { IBoardTask } from "../../../state/slices/task/model";
 import UpdateTaskOverview from "./overview";
@@ -5,7 +6,7 @@ import axios from "axios";
 import { API } from "../../../helpers/api";
 import { selectBoard } from "../../../state/slices/board";
 import { ReduxHooks } from "../../../state/hooks";
-import WebExtractedPage from "../../webExtraction/spikeIndex";
+import WebExtractedPage from "../../webExtraction";
 
 export interface UpdateTaskPros {
 	task: IBoardTask | null;
@@ -18,13 +19,10 @@ const UpdateTaskModal = ({ task, setUpdateTask }: UpdateTaskPros) => {
 	const [extractedPageHtml, setExtractedPageHtml] = useState<string | null>(
 		null
 	);
-	const [loading, setLoading] = useState<boolean>(false);
 
 	const handleLoadExtractedPage = async () => {
 		if (!task!.url) return;
 		if (extractedPageHtml) return setUrlPreview(true);
-
-		setLoading((_) => true);
 
 		const response = await axios.get(API.webExtractor.GET_PAGE(task!.id), {
 			params: { boardId: board?.id },
@@ -35,7 +33,6 @@ const UpdateTaskModal = ({ task, setUpdateTask }: UpdateTaskPros) => {
 		}
 
 		setUrlPreview(true);
-		setLoading((_) => false);
 	};
 
 	return (
@@ -59,8 +56,8 @@ const UpdateTaskModal = ({ task, setUpdateTask }: UpdateTaskPros) => {
 					URL PREVIEW
 				</button>
 			</div>
-			{urlPreview ? (
-				<WebExtractedPage html={extractedPageHtml!} />
+			{urlPreview && extractedPageHtml ? (
+				<WebExtractedPage html={extractedPageHtml} />
 			) : (
 				<UpdateTaskOverview task={task} setUpdateTask={setUpdateTask} />
 			)}
