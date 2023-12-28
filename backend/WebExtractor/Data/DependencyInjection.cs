@@ -10,7 +10,8 @@ public static class DependencyInjection
     Action<DbContextOptionsBuilder> configure)
   {
     services.AddDbContext<DataContext>(configure);
-
+    // TODO: add services
+    //services.AddScoped<Gateway, Repository>();
     return services;
   }
 }

@@ -9,5 +9,7 @@ public class DataContext : DbContext
   {
   }
 
-  // public DbSet<TodoItem> TodoItems { get; set; } = null!;
+  public DbSet<Board> Boards { get; set; }
+  public DbSet<BoardColumn> BoardColumns { get; set; }
+  public DbSet<Task> Tasks { get; set; }
 }
