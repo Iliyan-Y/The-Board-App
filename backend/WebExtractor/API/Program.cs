@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using WebExtractor;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddDomain();
 builder.Services.AddWebScrapper();
+builder.Services.AddDatabase(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly, typeof(Domain).Assembly);
 

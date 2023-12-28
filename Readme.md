@@ -49,6 +49,14 @@ EXTRACTOR_API_BASE_PATH=http://localhost:PORT
 
 - start the web extractor backend. From the project dir:
 
+API secrets:
+
+```
+{
+	"DefaultConnection": "Host=localhost;Database=my_db;Username=my_user;Password=my_pw"
+}
+```
+
 ```
 dotnet restore
 dotnet build
