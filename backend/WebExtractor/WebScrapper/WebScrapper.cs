@@ -4,10 +4,25 @@ namespace WebExtractor.WebScrapper;
 
 internal sealed class WebScrapper : WebScrapperGateway
 {
+  // TODO: move to config
+  private readonly string _downloadsRoot = "../Downloads";
+
+  public string? GetSavedPage(DataModel model)
+  {
+    var path = $"{_downloadsRoot}/{model.BoardId}/{model.TaskId}.html";
+
+    var ifExists = File.Exists(path);
+    if (ifExists)
+    {
+      return File.ReadAllText(path);
+    }
+    return null;
+  }
+
   public async Task<bool> SavePage(DataModel model)
   {
-    // TODO: move to config
-    var downloadsPath = $"../Downloads/{model.BoardId}/";
+
+    var downloadsPath = $"{_downloadsRoot}/{model.BoardId}/";
     DirectoryCheck(downloadsPath);
 
     await new BrowserFetcher().DownloadAsync();

@@ -1,10 +1,21 @@
 import axios from "axios";
 import { WebExtractorGateway } from "src/Gateways/WebExtractor/gateway";
-import { ExtractPageRequest } from "src/Gateways/WebExtractor/model";
+import { ExtractorPageModel } from "src/Gateways/WebExtractor/model";
 
 export class WebExtractorRepository implements WebExtractorGateway {
-  async extract(model: ExtractPageRequest): Promise<boolean> {
-    const apiEndpoint = `${process.env.EXTRACTOR_API_BASE_PATH}/WebScrapper`;
+  private webExtractorApi = process.env.EXTRACTOR_API_BASE_PATH;
+
+  async showPage(model: ExtractorPageModel): Promise<string> {
+    const apiEndpoint = `${this.webExtractorApi}/WebScrapper/${model.taskId}`;
+    const result = await axios.get(apiEndpoint, {
+      params: { boardId: model.boardId },
+    });
+    console.log("Status from get extracted page: ", result.status);
+    return result.data;
+  }
+
+  async extract(model: ExtractorPageModel): Promise<boolean> {
+    const apiEndpoint = `${this.webExtractorApi}/WebScrapper`;
     const result = await axios.post(apiEndpoint, model);
     console.log("Result from web extractor: ", result.status, result.data);
     return result.data;

@@ -9,6 +9,8 @@ import { ListByColumnIdRequest } from "src/API/Task/Models/ListByColumnIdRequest
 import { ListByColIdCommand } from "src/Domain/Task/services/list";
 import { ListByColumnIdResult } from "src/API/Task/Models/ListByColumnIdResult";
 import { UpdateCommand } from "src/Domain/Task/services/update";
+import { GetExtractedPageCommand } from "src/Domain/Task/services/webExtractor";
+import { ExtractorPageModel } from "src/Gateways/WebExtractor/model";
 
 @Injectable()
 export class TaskProfile extends AutomapperProfile {
@@ -64,6 +66,7 @@ export class TaskProfile extends AutomapperProfile {
           mapFrom((source) => source.column.id),
         ),
       );
+      createMap(mapper, GetExtractedPageCommand, ExtractorPageModel);
     };
   }
 }

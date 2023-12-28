@@ -11,4 +11,7 @@ export const API = {
 		GET_BY_ID: (id: string) => `${apiRoot}/${id}`,
 		CREATE: apiRoot,
 	},
+	webExtractor: {
+		GET_PAGE: (taskId: string) => `${apiRoot}/task/${taskId}/get-page`,
+	},
 };

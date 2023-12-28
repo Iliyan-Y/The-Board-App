@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ReduxHooks } from "../../state/hooks";
 import { IBoardTask } from "../../state/slices/task/model";
 import { selectTask, selectTaskState } from "../../state/slices/task/task";
-import UpdateTaskModal from "./update/view";
+import UpdateTaskModal from "./update";
 
 interface IBoardTaskProps {
 	columnId: string;

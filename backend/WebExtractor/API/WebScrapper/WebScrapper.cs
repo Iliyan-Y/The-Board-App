@@ -32,14 +32,16 @@ public class WebScrapperController : ControllerBase
     }
 
 
-    [HttpGet]
-    public ContentResult Get()
+    [HttpGet("{taskId}")]
+    public IActionResult Get(Guid taskId, [FromQuery] Guid boardId)
     {
-        var html = System.IO.File.ReadAllText("../Downloads/output.html");
-        return new ContentResult
+        var requestModel = new GetSavedPageRequestModel(taskId, boardId);
+        var result = _service.GetSavedPage(_mapper.Map<GetSavedPageCommand>(requestModel));
+        return result.Status switch
         {
-            ContentType = "text/html",
-            Content = html
+            GetSavedPageResultStatus.Found => Ok(result.Page),
+            GetSavedPageResultStatus.NotFound => NotFound(),
+            _ => Problem("An unexpected issue occurred while Creating the Investor")
         };
     }
 }

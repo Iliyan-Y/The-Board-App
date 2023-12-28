@@ -6,7 +6,7 @@ import { Mapper } from "@automapper/core";
 import { InjectMapper } from "@automapper/nestjs";
 import { Task } from "src/Gateways/Task/entity";
 import { WebExtractorGateway } from "src/Gateways/WebExtractor/gateway";
-import { ExtractPageRequest } from "src/Gateways/WebExtractor/model";
+import { ExtractorPageModel } from "src/Gateways/WebExtractor/model";
 
 export class CreateCommand {
   @AutoMap()
@@ -61,7 +61,7 @@ export class CreateTaskService implements CreateTask {
     console.log("Task created: ", task);
     if (task.url) {
       this.webExtractor.extract(
-        new ExtractPageRequest(task.id, task.column.board.id, task.url),
+        new ExtractorPageModel(task.id, task.column.board.id, task.url),
       );
     }
 
