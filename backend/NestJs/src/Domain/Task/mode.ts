@@ -18,8 +18,8 @@ export class TaskModel {
   column: BoardColumnModel;
 
   @AutoMap()
-  created_at: Date;
+  created_at: string;
 
   @AutoMap()
-  updated_at: Date;
+  updated_at: string;
 }

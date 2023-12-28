@@ -60,7 +60,6 @@ export const getTasks = createAsyncThunk(
 			const res = await axios.get(API.task.GET_ALL_BY_COLUMN_ID(col.id));
 			tasks = [...tasks, ...res.data];
 		}
-		console.log(tasks);
 		return tasks;
 	}
 );

@@ -22,7 +22,7 @@ const appModules = [BoardModule, TaskModule];
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       autoLoadEntities: true,
-      synchronize: true, // shouldn't be used in production - otherwise you can lose production data.
+      synchronize: false, // shouldn't be used in production - otherwise you can lose production data.
     }),
     ...appModules,
   ],

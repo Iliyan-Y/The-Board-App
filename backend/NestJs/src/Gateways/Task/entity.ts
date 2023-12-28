@@ -32,10 +32,10 @@ export class Task {
   column: BoardColumn;
 
   @AutoMap()
-  @CreateDateColumn()
-  created_at: Date;
+  @Column()
+  created_at: string;
 
   @AutoMap()
-  @UpdateDateColumn()
-  updated_at: Date;
+  @Column()
+  updated_at: string;
 }
