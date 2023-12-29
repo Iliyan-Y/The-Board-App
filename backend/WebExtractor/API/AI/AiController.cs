@@ -19,7 +19,7 @@ public class AiController : ControllerBase
     _mapper = mapper;
   }
 
-
+  [HttpPost]
   public async Task<IActionResult> AskQuestion(AskQuestionRequest request)
   {
     var result = await _service.AskQuestion(_mapper.Map<AskQuestionCommand>(request));
