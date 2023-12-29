@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using WebExtractor;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +11,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddDomain();
 builder.Services.AddWebScrapper();
+// TODO: throw error if DefaultConnection
 builder.Services.AddDatabase(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("WebExtractor.Api")));
+// TODO: throw error if no key
+builder.Services.AddAi(builder.Configuration.GetSection("OpenAiConfig").Get<OpenAiConfig>());
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly, typeof(Domain).Assembly);
 

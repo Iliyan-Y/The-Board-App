@@ -9,6 +9,7 @@ internal sealed class AIService(AIGateway gateway) : IAIService
   public async Task<AskQuestionResult> AskQuestion(AskQuestionCommand command)
   {
     var answer = await _aiGateway.AskQuestion(command.Question);
-    throw new NotImplementedException();
+
+    return new AskQuestionResult(AskQuestionResultStatus.Failed, null);
   }
 }
