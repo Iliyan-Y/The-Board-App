@@ -2,12 +2,15 @@ using WebExtractor.AI;
 
 namespace WebExtractor.OpenAI;
 
-internal sealed class OpenAiService(string key) : AIGateway
+internal sealed class OpenAiService(HttpClient httpClient) : AIGateway
 {
-  private readonly string _key = key;
+  private readonly HttpClient _httpClient = httpClient;
 
-  public Task<string> AskQuestion(string question)
+  async public Task<string> AskQuestion(string question)
   {
+    var response = await _httpClient.GetAsync($"/ask?question={question}");
+    response.EnsureSuccessStatusCode();
+
     throw new NotImplementedException();
   }
 }

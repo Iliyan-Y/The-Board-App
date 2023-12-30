@@ -55,6 +55,10 @@ API secrets:
 {
 	"ConnectionStrings": {
 		"DefaultConnection": "Host=localhost;Port=5432;Database=the_board;Username=your_user_name;Password=password"
+	},
+	"OpenAiConfig": {
+		"Key": "your_openai_key_here",
+		"BaseAddress": "https://api.example.com"
 	}
 }
 ```
