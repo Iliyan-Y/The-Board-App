@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Net.Http.Headers;
+using Microsoft.Extensions.DependencyInjection;
 using WebExtractor.AI;
 using WebExtractor.OpenAI;
 
@@ -8,12 +9,15 @@ public static class DependencyInjection
 {
   public static IServiceCollection AddAi(this IServiceCollection services, OpenAiConfig config)
   {
-    services.AddHttpClient<OpenAiService>(client =>
-           {
-             client.BaseAddress = new Uri(config.BaseAddress);
-             client.DefaultRequestHeaders.Add("ApiKey", config.Key);
-           });
-    services.AddScoped<AIGateway, OpenAiService>();
+    services.AddScoped<AIGateway>(provider =>
+    {
+      var client = new HttpClient
+      {
+        BaseAddress = new Uri(config.BaseAddress)
+      };
+      client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", config.Key);
+      return new OpenAiService(client, config.Model);
+    });
     return services;
   }
 }

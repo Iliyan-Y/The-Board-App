@@ -58,7 +58,8 @@ API secrets:
 	},
 	"OpenAiConfig": {
 		"Key": "your_openai_key_here",
-		"BaseAddress": "https://api.example.com"
+		"BaseAddress": "https://api.example.com",
+		"Model": "gpt-3.5-turbo"
 	}
 }
 ```
