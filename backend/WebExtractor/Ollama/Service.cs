@@ -15,14 +15,10 @@ internal sealed class OpenAiService(HttpClient httpClient, string aiModel) : AIG
   async public Task<string> AskQuestion(string question)
   {
 
-    var requestContent = new ChatRequest
+    var requestContent = new MessageRequest
     {
-      Model = "gpt-3.5-turbo",
-      Messages = new List<Message>
-            {
-                new Message { Role = "system", Content = "You are a helpful assistant." },
-                new Message { Role = "user", Content = "Who won the world series in 2020?" }
-            }
+      Model = _aiModel,
+      Prompt = "Who are you ?"
     };
     var requestJson = JsonSerializer.Serialize(requestContent);
     var request = new StringContent(requestJson, Encoding.UTF8, "application/json");
@@ -39,14 +35,13 @@ internal sealed class OpenAiService(HttpClient httpClient, string aiModel) : AIG
 }
 
 
-public class Message
-{
-  public string Role { get; set; }
-  public string Content { get; set; }
-}
 
-public class ChatRequest
+
+public class MessageRequest
 {
   public string Model { get; set; }
-  public List<Message> Messages { get; set; }
+  public string Prompt { get; set; }
+
+  public bool Stream { get; set; } = false;
+
 }
