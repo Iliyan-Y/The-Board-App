@@ -485,3 +485,4 @@ $RECYCLE.BIN/
 Downloads/*.html
 Downloads/*/*.html
 Api/Migrations
+API/Migrations
