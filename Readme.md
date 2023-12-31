@@ -42,6 +42,7 @@ DB_NAME=your_db_name
 DB_USERNAME=your_db_user_name
 DB_PASSWORD=IF_password_required
 EXTRACTOR_API_BASE_PATH=http://localhost:PORT
+NODE_ENV=DEV
 ```
 
 - install the dependency cd "backend"/"client `yarn install`
