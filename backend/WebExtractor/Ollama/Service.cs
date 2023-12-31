@@ -5,7 +5,7 @@ using System.Text.Json;
 using WebExtractor.AI;
 
 
-namespace WebExtractor.OpenAI;
+namespace WebExtractor.Ollama;
 
 internal sealed class OpenAiService(HttpClient httpClient, string aiModel) : AIGateway
 {

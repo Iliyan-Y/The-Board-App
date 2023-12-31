@@ -23,7 +23,7 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
     <ProjectReference Include="..\WebScrapper\WebScrapper.csproj" />
     <ProjectReference Include="..\Data\Data.csproj" />
-    <ProjectReference Include="..\OpenAI\OpenAI.csproj" />
+    <ProjectReference Include="..\Ollama\Ollama.csproj" />
   </ItemGroup>
 
 </Project>

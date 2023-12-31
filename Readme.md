@@ -29,7 +29,7 @@ It's not that NestJS can't handle all the requirements but to have direct compar
 
 - nodejs
 - postgresql
-- dotnet 8
+- dotnet 8 + [ef tool](https://learn.microsoft.com/en-us/ef/core/cli/dotnet)
 - [ollama](https://ollama.ai/)
 
 # Setup
