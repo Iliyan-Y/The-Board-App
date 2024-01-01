@@ -17,6 +17,6 @@ export const API = {
 		GET_PAGE: (taskId: string) => `${apiRoot}/task/${taskId}/get-page`,
 	},
 	AI: {
-		POST_QUESTION: `${webExtractorApiRoot}/`,
+		POST_QUESTION: `${webExtractorApiRoot}/Ai`,
 	},
 };
