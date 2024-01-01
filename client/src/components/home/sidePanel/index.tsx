@@ -22,10 +22,10 @@ const SidePanel = () => {
 	return (
 		<div className="h-full border-r-2 absolute w-60 text-center p-2">
 			{boards.map((board) => (
-				<>
+				<div key={board.id}>
 					<Link to={`/${board.id}`}>{board.name}</Link>
 					<br />
-				</>
+				</div>
 			))}
 		</div>
 	);

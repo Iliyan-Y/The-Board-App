@@ -13,7 +13,7 @@ const UpdateTaskOverview = ({ task, setUpdateTask }: UpdateTaskPros) => {
 			<input
 				type="text"
 				placeholder="Name"
-				value={task?.name}
+				value={task ? task.name : ""}
 				className="input input-bordered w-full max-w-xs mx-auto my-2"
 				disabled
 			/>
@@ -21,13 +21,13 @@ const UpdateTaskOverview = ({ task, setUpdateTask }: UpdateTaskPros) => {
 				type="text"
 				placeholder="URL"
 				className="input input-bordered w-full max-w-xs mx-auto my-2"
-				value={task?.url}
+				value={task ? task.url : ""}
 				disabled
 			/>
 			<textarea
 				className="textarea textarea-bordered mb-2"
 				placeholder="Description"
-				value={task?.description}
+				value={task ? task.description : ""}
 				disabled
 			/>
 			<div className="">
