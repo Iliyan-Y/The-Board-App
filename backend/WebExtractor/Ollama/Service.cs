@@ -1,5 +1,6 @@
 
 
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -21,14 +22,10 @@ internal sealed class OpenAiService(HttpClient httpClient, string aiModel) : AIG
       Model = _aiModel,
       Prompt = question
     };
-    var requestJson = JsonSerializer.Serialize(requestContent);
-    var request = new StringContent(requestJson, Encoding.UTF8, "application/json");
-
-    var response = await _httpClient.PostAsync("", request);
+    var response = await _httpClient.PostAsJsonAsync("", requestContent);
     response.EnsureSuccessStatusCode();
-    var responseBody = await response.Content.ReadAsStringAsync();
 
-    var responseData = JsonSerializer.Deserialize<AiResponse>(responseBody);
+    var responseData = await response.Content.ReadFromJsonAsync<AiResponse>();
 
     if (responseData != null && !string.IsNullOrEmpty(responseData.Response)) { return responseData.Response; }
 
