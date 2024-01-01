@@ -10,6 +10,8 @@ internal sealed class AIService(AIGateway gateway) : IAIService
   {
     var answer = await _aiGateway.AskQuestion(command.Question);
 
+    if (answer != null) return new AskQuestionResult(AskQuestionResultStatus.Success, answer);
+
     return new AskQuestionResult(AskQuestionResultStatus.Failed, null);
   }
 }

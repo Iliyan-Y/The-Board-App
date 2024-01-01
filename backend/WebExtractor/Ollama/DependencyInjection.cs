@@ -13,9 +13,9 @@ public static class DependencyInjection
     {
       var client = new HttpClient
       {
-        BaseAddress = new Uri(config.BaseAddress)
+        BaseAddress = new Uri(config.BaseAddress),
+        Timeout = TimeSpan.FromMinutes(5)
       };
-
       return new OpenAiService(client, config.Model);
     });
     return services;
