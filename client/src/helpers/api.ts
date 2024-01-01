@@ -1,4 +1,6 @@
 export const apiRoot = import.meta.env.VITE_PUBLIC_API_BASE_PATH;
+const webExtractorApiRoot = import.meta.env
+	.VITE_PUBLIC_WEB_EXTRACTOR_API_BASE_PATH;
 
 export const API = {
 	task: {
@@ -13,5 +15,8 @@ export const API = {
 	},
 	webExtractor: {
 		GET_PAGE: (taskId: string) => `${apiRoot}/task/${taskId}/get-page`,
+	},
+	AI: {
+		POST_QUESTION: `${webExtractorApiRoot}/`,
 	},
 };

@@ -81,9 +81,11 @@ cd API && dotnet run
 ```
 
 - Front end .env
+  - ! The `/` is NOT INCLUDED in the end of the URLs
 
 ```
 VITE_PUBLIC_API_BASE_PATH=http://localhost:3001
+VITE_PUBLIC_WEB_EXTRACTOR_API_BASE_PATH=http://localhost:5120
 ```
 
 - star the client server - `yarn dev`

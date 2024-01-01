@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using WebExtractor;
 
 var builder = WebApplication.CreateBuilder(args);
