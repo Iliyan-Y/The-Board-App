@@ -6,6 +6,7 @@ import { API } from "../../helpers/api";
 
 const WebExtractedPage = ({ html }: { html: string }) => {
 	const [question, setQuestion] = useState("");
+	const [answer, setAnswer] = useState<string | null>(null);
 
 	const handleTextSelection = () => {
 		const selection = window.getSelection();
@@ -15,34 +16,49 @@ const WebExtractedPage = ({ html }: { html: string }) => {
 
 	const handleSendQuestion = async () => {
 		await axios
-			.post(API.AI.POST_QUESTION, {
-				question,
-				taskId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-				title: "string",
+			.post(API.AI.POST_QUESTION, { question })
+			.then((res) => {
+				console.log(res.data);
+				setAnswer(res.data);
 			})
-			.then((res) => console.log(res))
 			.catch((e) => console.error(e));
 	};
 
 	return (
 		<div className="flex justify-around h-full mt-5">
-			<div>
-				<button className="btn" onClick={handleSendQuestion}>
-					Send Question
-				</button>
+			{answer ? (
+				<div>
+					<button className="btn" onClick={() => setAnswer(null)}>
+						Save Answer
+					</button>
+					<button className="btn" onClick={() => setAnswer(null)}>
+						Ask Again
+					</button>
+					<p>
+						{answer.split("\n").map((n) => (
+							<p>{n}</p>
+						))}
+					</p>
+				</div>
+			) : (
+				<div>
+					<button className="btn" onClick={handleSendQuestion}>
+						Send Question
+					</button>
 
-				<textarea
-					className="textarea  w-full h-4/5 textarea-bordered mb-2"
-					placeholder="Question"
-					value={question}
-					onChange={(e) => setQuestion(e.target.value)}
-				/>
-			</div>
+					<textarea
+						className="textarea  w-full h-4/5 textarea-bordered mb-2"
+						placeholder="Question"
+						value={question}
+						onChange={(e) => setQuestion(e.target.value)}
+					/>
+				</div>
+			)}
 
 			<div
 				onMouseUp={handleTextSelection}
-				//className="w-3/4 h-3/4 absolute bg-white top-28 left-10 overflow-auto"
 				className="w-1/2 h-4/5 bg-white overflow-auto"
+				style={{ display: answer ? "none" : "block" }}
 			>
 				{parse(html)}
 			</div>
