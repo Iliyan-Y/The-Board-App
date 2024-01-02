@@ -3,11 +3,16 @@ import { Board } from "src/Gateways/Board/entity";
 import { Task } from "src/Gateways/Task/entity";
 import { TaskGateway } from "src/Gateways/Task/gateway";
 import { Repository } from "typeorm";
-
+import { v4 } from "uuid";
 export class TaskRepository implements TaskGateway {
   constructor(@InjectRepository(Task) private repository: Repository<Task>) {}
 
   async create(model: Task): Promise<Task> {
+    model.id = v4();
+    const date = new Date().toISOString();
+    model.created_at = date;
+    model.updated_at = date;
+
     const task = this.repository.create(model);
     await this.repository.save(task);
     const column = await this.repository.query(

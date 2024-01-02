@@ -1,5 +1,6 @@
 using AutoMapper;
 
+namespace WebExtractor.WebScrapper;
 internal sealed class CreateMapping : Profile
 {
   public CreateMapping()

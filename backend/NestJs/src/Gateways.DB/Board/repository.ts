@@ -2,6 +2,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Board } from "src/Gateways/Board/entity";
 import { BoardGateway } from "src/Gateways/Board/gateway";
 import { Repository } from "typeorm";
+import { v4 as uuidv4 } from "uuid";
 
 export class BoardRepository implements BoardGateway {
   constructor(
@@ -36,6 +37,7 @@ export class BoardRepository implements BoardGateway {
   }
 
   async create(model: Board): Promise<Board> {
+    model.id = uuidv4();
     const board = this.repository.create(model);
     await this.repository.save(board);
     return board;
