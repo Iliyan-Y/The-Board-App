@@ -13,6 +13,8 @@ public static class DependencyInjection
       var client = new HttpClient
       {
         BaseAddress = new Uri(config.BaseAddress),
+        // LLM calculation can take longer on local machine
+        // adjust the timeout per the uncase
         Timeout = TimeSpan.FromMinutes(5)
       };
       return new OpenAiService(client, config.Model);

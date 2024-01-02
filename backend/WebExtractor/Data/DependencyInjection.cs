@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using WebExtractor.AI;
 
 
 namespace WebExtractor;
@@ -10,8 +11,7 @@ public static class DependencyInjection
     Action<DbContextOptionsBuilder> configure)
   {
     services.AddDbContext<DataContext>(configure);
-    // TODO: add services
-    //services.AddScoped<Gateway, Repository>();
+    services.AddScoped<DataGateway, Repository>();
     return services;
   }
 }

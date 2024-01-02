@@ -13,4 +13,9 @@ internal sealed class AIService(AIGateway gateway) : IAIService
 
     return new AskQuestionResult(AskQuestionResultStatus.Failed, null);
   }
+
+  public Task<SaveQuestionResult> SaveQuestion(SaveQuestionCommand command)
+  {
+    throw new NotImplementedException();
+  }
 }
